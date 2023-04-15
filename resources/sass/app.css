@@ -1,0 +1,5 @@
+@import url("https://fonts.bunny.net/css?family=Nunito");
+.form-group.required label:after {
+  content: "*";
+  color: #6c757d;
+}/*# sourceMappingURL=app.css.map */
