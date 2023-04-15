@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
     Route::get('/redirect-user-to-paticular-dahsboard',[HomeController::class,"index"]);
 });
+Route::get('/redirect-user-to-paticular-dahsboard',function (){
+    return session()->has('subdomain') ? redirect(session()->get('subdomain','')."/redirect-user-to-paticular-dahsboard") : abort(404);
+});
 foreach (glob(__DIR__.'/sms/*.php') as $filename) {
     require $filename;
 }
@@ -28,3 +31,8 @@ Route::group(
             return "succes yar";
         });
     });
+
+    Route::get('/123',function()
+        {
+            return "succes yar";
+        })->middleware('check-permission:1,is_view');

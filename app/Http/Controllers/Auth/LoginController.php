@@ -77,6 +77,7 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication successful
             if($school_id->school_favicon != "") session()->put('SCHOOL_FAVICON_PATH',$school_id->school_favicon);
+            $request->session()->put('subdomain', $subdomain);
             return redirect($this->redirectTo());
         } else {
             // Authentication failed

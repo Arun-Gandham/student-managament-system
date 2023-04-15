@@ -54,7 +54,7 @@ class HomeController extends Controller
     {
         $subdomain = request()->segment(1);
         $subdomains = unserialize(env("SUB_DOMAINS_SERIALIZED"));
-        if(!isset($subdomains[$subdomain]) && $subdomain != "superadmin") { echo "Subdodfasdfmasdasdasin not found"; exit; }
+        if(!isset($subdomains[$subdomain]) && $subdomain != "superadmin") redirect('/login');
         return $subdomain;
     }
 }
