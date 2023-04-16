@@ -24,16 +24,3 @@ foreach (glob(__DIR__.'/sms/*.php') as $filename) {
     require $filename;
 }
 
-Route::group(
-    ['prefix' => HomeController::addSubdomineTOEveryRoute()],
-    function () {
-        Route::get('/123',function()
-        {
-            return "succes yar";
-        });
-    });
-
-    Route::get('/123',function(Request $request)
-        {
-            return $request->session()->get('permissions')[1]['is_add'];
-        })->middleware('check-permission:1,is_view');
