@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,7 +33,7 @@ Route::group(
         });
     });
 
-    Route::get('/123',function()
+    Route::get('/123',function(Request $request)
         {
-            return "succes yar";
+            return $request->session()->get('permissions')[1]['is_add'];
         })->middleware('check-permission:1,is_view');

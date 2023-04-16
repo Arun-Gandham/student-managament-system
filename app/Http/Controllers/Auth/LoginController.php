@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\RolePermissions;
 use App\Models\Schools;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -78,6 +79,19 @@ class LoginController extends Controller
             // Authentication successful
             if($school_id->school_favicon != "") session()->put('SCHOOL_FAVICON_PATH',$school_id->school_favicon);
             $request->session()->put('subdomain', $subdomain);
+            $permissions = RolePermissions::where("school_id",auth()->user()->school_id)->where('role_id',auth()->user()->role)->select('module_id','is_view','is_edit','is_add','is_delete')->get();
+            $modifiedPermissions = [];
+            foreach($permissions as $premission)
+            {
+                $modifiedPermissions[$premission['module_id']] = [
+                    "is_view" => $premission['is_view'],
+                    "is_add" => $premission['is_add'],
+                    "is_edit" => $premission['is_edit'],
+                    "is_delete" => $premission['is_delete']
+                ];
+            }
+            $request->session()->put('permissions', $modifiedPermissions);
+            $request->session()->put('modules', unserialize(env('MODULES_WITH_ID_SERIALIZED')));
             return redirect($this->redirectTo());
         } else {
             // Authentication failed

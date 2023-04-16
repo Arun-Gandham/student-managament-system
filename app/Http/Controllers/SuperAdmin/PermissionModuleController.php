@@ -4,7 +4,6 @@ namespace App\Http\Controllers\SuperAdmin;
 
 use App\Http\Controllers\Controller;
 use App\Models\permissionModule;
-use App\Models\Schools;
 use Illuminate\Http\Request;
 use DataTables;
 use Exception;
@@ -62,6 +61,7 @@ class PermissionModuleController extends Controller
             $newModule->name = isset($request->name) ? $request->name : "";
             $newModule->description = isset($request->description) ? $request->description : "";
             $newModule->save();
+            $this->updateModuleIdsENV();
             if($id != "") return response()->json(['success'=> "Successfully updated"],200);
             return response()->json(['success'=>"Successfully created"],201);
         }
@@ -75,5 +75,22 @@ class PermissionModuleController extends Controller
     {
         $formData = permissionModule::where("id",$id)->first();
         return view('SuperAdmin.permissionModules.addOrEdit',compact('formData'));
+    }
+
+    public static function updateModuleIdsENV():void
+    {
+        $modules = permissionModule::where('status',1)->select('id','name')->get();
+        $availableModules = [];
+        foreach($modules as $module)
+        {
+            $availableModules[$module['name']] = $module['id'];
+        }
+        $serializedData = "'".serialize($availableModules)."'";
+        $path = base_path('.env');
+        if (file_exists($path)) {
+            file_put_contents($path, str_replace(
+                'MODULES_WITH_ID_SERIALIZED='.env('MODULES_WITH_ID_SERIALIZED'), 'MODULES_WITH_ID_SERIALIZED='.$serializedData, file_get_contents($path)
+            ));
+        }
     }
 }
