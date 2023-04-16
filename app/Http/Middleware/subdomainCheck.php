@@ -16,11 +16,11 @@ class subdomainCheck
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // $subdomain = $request->segment(1);
-        // $subdomains = unserialize(env("SUB_DOMAINS_SERIALIZED"));
-        // if(!isset($subdomains[$subdomain])) { echo "subdomine not found from subdomine heck middleware error"; exit; }
+        $subdomain = $request->segment(1);
+        $subdomains = unserialize(env("SUB_DOMAINS_SERIALIZED"));
+        if(!isset($subdomains[$subdomain]) && $subdomain != 'superadmin') abort(403,"unauthorized");
 
-        // if(auth()->check() && ($subdomains[$subdomain] != auth()->user()->schoolData->subdomain_id)) { echo "subdomine not found from subdomine heck middleware error"; print_r(auth()->user()->schoolData); exit; };
+        if(auth()->check() && isset($subdomains[$subdomain]) && auth()->user()->schoolData != null && ($subdomains[$subdomain] != auth()->user()->schoolData->subdomain_id)  && $subdomain != 'superadmin') abort(403,"unauthorized");
         return $next($request);
     }
 }

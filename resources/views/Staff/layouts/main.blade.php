@@ -59,35 +59,21 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->routeIs('schooladmin.dashboard.index') ? 'active' : '' }}" href="{{ route('schooladmin.dashboard.index') }}"><i class="fa fa-signal" aria-hidden="true"></i> Dashboard</a>
                     </li>
-                    @haveRootPermission(1)
-                    <li class="nav-item {{ request()->routeIs('schooladmin.roles-permissions.*') ? 'active' : '' }}">
-                        <a class="nav-link" href="#roles-permissions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-cogs" aria-hidden="true"></i> Roles Permissions<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
-                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.roles-permissions.*') ? 'show' : '' }}" id="roles-permissions">
-                            <li class="">
-                                <a class="nav-link {{ request()->routeIs('schooladmin.roles-permissions.roles.list') ? 'active' : ''  }}" href="{{ route('schooladmin.roles-permissions.roles.list') }}">Roles</a>
-                            </li>
-                            @havePermission(1,is_add)
-                            <li class="">
-                                <a class="nav-link {{ request()->routeIs('schooladmin.roles-permissions.roles.add') ? 'active' : ''  }}" href="{{ route('schooladmin.roles-permissions.roles.add') }}">Create Role</a>
-                            </li>
-                            @endhavePermission
-                            <li class="">
-                                <a class="nav-link {{ request()->routeIs('schooladmin.roles-permissions.permissions') ? 'active' : ''  }}" href="{{ route('schooladmin.roles-permissions.permissions') }}">Permissions</a>
-                            </li>
-                        </ul>
-                    </li>
-                    @endhaveRootPermission
+                    @haveRootPermission('Student')
                     <li class="nav-item {{ request()->routeIs('staff.student.*') ? 'active' : '' }}">
                         <a class="nav-link" href="#roles-permissions" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Students<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
                         <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('staff.student.*') ? 'show' : '' }}" id="roles-permissions">
                             <li class="">
                                 <a class="nav-link {{ request()->routeIs('staff.student.list') ? 'active' : ''  }}" href="{{ route('staff.student.list') }}">All Students</a>
                             </li>
+                            @havePermission('Student,is_add')
                             <li class="">
                                 <a class="nav-link {{ request()->routeIs('staff.student.add') ? 'active' : ''  }}" href="{{ route('staff.student.add') }}">Add Student</a>
                             </li>
+                            @endhavePermission
                         </ul>
                     </li>
+                    @endhaveRootPermission
                 </ul>
             </div>
         </div>

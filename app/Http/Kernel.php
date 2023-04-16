@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'studentRole' => \App\Http\Middleware\studentCheckRole::class,
         'studentAuthenticate' => \App\Http\Middleware\studentAuthenticate::class,
         'subdomain' => \App\Http\Middleware\subdomainCheck::class,
+        'check-permission' => \App\Http\Middleware\checkPermission::class,
     ];
 }

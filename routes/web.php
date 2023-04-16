@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
     Route::get('/redirect-user-to-paticular-dahsboard',[HomeController::class,"index"]);
 });
+Route::get('/redirect-user-to-paticular-dahsboard',function (){
+    return session()->has('subdomain') ? redirect(session()->get('subdomain','')."/redirect-user-to-paticular-dahsboard") : abort(404);
+});
 foreach (glob(__DIR__.'/sms/*.php') as $filename) {
     require $filename;
 }
@@ -28,3 +32,8 @@ Route::group(
             return "succes yar";
         });
     });
+
+    Route::get('/123',function(Request $request)
+        {
+            return $request->session()->get('permissions')[1]['is_add'];
+        })->middleware('check-permission:1,is_view');
