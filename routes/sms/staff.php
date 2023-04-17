@@ -16,9 +16,10 @@ Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
 
         // Student
         Route::get('/student/list', [studentController::class, 'studentList'])->name('student.list');
+        Route::get('/student/datatables/list', [studentController::class, 'StudentsListDatatable'])->name('student.datatable.list');
         Route::get('/student/add', [studentController::class, 'addStudent'])->name('student.add');
         Route::post('/student/add', [studentController::class, 'addOrEditStudentSubmit'])->name('student.add.submit');
-        Route::get('/student/{id}/edit', [studentController::class, 'addStudent'])->name('student.edit');
+        Route::get('/student/{id}/edit', [studentController::class, 'editStudent'])->name('student.edit');
         Route::post('/student/{id}/edit', [studentController::class, 'addOrEditStudentSubmit'])->name('student.edit.submit');
     });
 });

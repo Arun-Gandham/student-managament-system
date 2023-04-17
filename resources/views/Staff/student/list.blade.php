@@ -49,7 +49,7 @@
         $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('superadmin.school.datatable.list') !!}",
+            ajax: "{!! route('staff.student.datatable.list') !!}",
             columns: [
                 {
                     "title": "S.No",
@@ -60,9 +60,9 @@
                         return meta.row + 1;
                     }
                 },
-                { data: 'school_name', name: 'school_name',  title: 'School Name', className: 'text-capitalize'},
-                { data: 'email', name: 'email', title: 'Admin Email'},
-                { data: 'school_status', name: 'school_status', title: 'Status'},
+                { data: 'name', name: 'name',  title: 'Name', className: 'text-capitalize'},
+                { data: 'gender', name: 'gender', title: 'Gender'},
+                { data: 'registration_number', name: 'registration_number', title: 'Reg No'},
                 { data: 'actions', name: 'Action', title: 'Action'}
             ],
             "order": [],
