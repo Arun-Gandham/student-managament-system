@@ -4,17 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-class students extends Authenticatable
+class Parents  extends Authenticatable
 {
-    protected $table = "students";
     use HasFactory;
-
+    protected $table = "parents";
     public function checkRole($role)
     {
-        if (auth()->guard('student')->user()->userRole->name == $role[0]) {
-            return true;
-        }
-
+        if (auth()->guard('parent')->user()->userRole->name == $role[0]) return true;
         return false;
     }
 
@@ -27,5 +23,4 @@ class students extends Authenticatable
     {
         return $this->hasOne(Schools::class, 'id', 'school_id');
     }
-
 }

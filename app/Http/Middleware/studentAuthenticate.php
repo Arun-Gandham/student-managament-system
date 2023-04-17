@@ -15,7 +15,8 @@ class studentAuthenticate
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('student')->guest()) return redirect()->route('student.login');
+        if (auth()->guard('student')->guest()) return redirect()->route('student.login');
+        if(!auth()->guard('student')->guest() && auth()->guard('student')->user()->role != env('STUDENT_ROLE_ID')) abort('403',"Unauthorized Action");
         return $next($request);
     }
 }

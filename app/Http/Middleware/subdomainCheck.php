@@ -19,7 +19,6 @@ class subdomainCheck
         $subdomain = $request->segment(1);
         $subdomains = unserialize(env("SUB_DOMAINS_SERIALIZED"));
         if(!isset($subdomains[$subdomain]) && $subdomain != 'superadmin') abort(403,"unauthorized");
-
         if(auth()->check() && isset($subdomains[$subdomain]) && auth()->user()->schoolData != null && ($subdomains[$subdomain] != auth()->user()->schoolData->subdomain_id)  && $subdomain != 'superadmin') abort(403,"unauthorized");
         return $next($request);
     }

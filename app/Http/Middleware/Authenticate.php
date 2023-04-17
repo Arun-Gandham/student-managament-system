@@ -12,9 +12,12 @@ class Authenticate extends Middleware
      */
     protected function redirectTo(Request $request): ?string
     {
-        // if (!Auth::guard('student')->guest()) {
-        //     abort(403, 'Unauthorized action.');
-        // }
+        if (!Auth::guard('student')->guest()) {
+            return route('student.dashboard.index');
+        }
+        if (!Auth::guard('parent')->guest()) {
+            return route('parent.dashboard.index');
+        }
         return $request->expectsJson() ? null : route('subdomain.login');
     }
 }
