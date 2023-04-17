@@ -12,23 +12,22 @@
     <div class="form-block">
         <h2>Basic Information</h2>
         <div class="border rounded d-flex flex-wrap block-inner">
-
             <div class="col-md-4">
-                @include('components.textInput',['name' => 'first_name','title' => 'First Name','required' => true, 'value' => isset($formData) ? $formData->school_name : ""])
+                @include('components.textInput',['name' => 'first_name','title' => 'First Name','required' => true, 'value' => isset($formData) ? $formData->first_name : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['name' => 'last_name','title' => 'Last Name', 'value' => isset($formData) ? $formData->school_description : ""])
+                @include('components.textInput',['name' => 'last_name','title' => 'Last Name', 'value' => isset($formData) ? $formData->last_name : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['name' => 'sur_name','title' => 'Sur Name','required' => true, 'value' => isset($formData) ? $formData->school_description : ""])
+                @include('components.textInput',['name' => 'sur_name','title' => 'Sur Name','required' => true, 'value' => isset($formData) ? $formData->sur_name : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['name' => 'registration_number','title' => 'Registration Number','required' => true, 'value' => isset($formData) ? $formData->school_description : ""])
+                @include('components.textInput',['name' => 'registration_number','title' => 'Registration Number','required' => true, 'value' => isset($formData) ? $formData->registration_number : ""])
             </div>
             <div class="col-md-4">
                 <div class="form-group required">
                     <label for="exampleInputEmail1">Date Of Birth</label>
-                    <input type="date" class="form-control" name="dob" id="dob" value='{{ isset($formData) ? $formData->school_started_on : ""}}' required>
+                    <input type="date" class="form-control" name="dob" id="dob" value='{{ isset($formData) ? $formData->dob : ""}}' required>
                 </div>
             </div>
             <div class="col-md-4">
@@ -37,19 +36,19 @@
                     <select class="selectpicker form-control" id="gender" name="gender">
                         <option value="">Select Gender</option>
                         @foreach ($genders as $gender)
-                            <option value="{{$gender->id}}" {{ $id  == $gender->id ? "selected" : "" }}>{{ $gender->name }}</option>
+                            <option value="{{$gender->id}}" {{ $formData->gender  == $gender->id ? "selected" : "" }}>{{ $gender->name }}</option>
                         @endforeach
                     </select>
                 </div>
             </div>
             <div class="col-md-4">
-                @include('components.mobileNumber',['title' => 'Contact Number ( If any )','name' => 'phone', 'value' => isset($formData) ? $formData->school_phone1 : ""])
+                @include('components.mobileNumber',['title' => 'Contact Number ( If any )','name' => 'phone', 'value' => isset($formData) ? $formData->phone : ""])
             </div>
             <div class="col-md-4">
                 @include('components.textInput',['title' => 'Email ( If any )','name' => 'email', 'value' => isset($formData) ? $formData->email : ""])
             </div>
             <div class="col-md-4">
-                @include('components.imageUploadPriview',['name' => 'profile_photo','title' => 'Profile Photo',"previewLink" => isset($formData) ? $formData->school_image : "" ])
+                @include('components.imageUploadPriview',['name' => 'profile_photo','title' => 'Profile Photo',"previewLink" => isset($formData) ? $formData->profile_photo : "" ])
             </div>
         </div>
     </div>
@@ -60,30 +59,30 @@
             <h4>Person 1</h4>
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Name', 'name' => 'primary_name', 'required' => false, 'value' => isset($formData) ? $formData->school_short_name : ""])
+                @include('components.textInput',['title' => 'Name', 'name' => 'primary_name', 'required' => true, 'value' => isset($parentData) ? $parentData->primary_name : ""])
             </div>
             <div class="col-md-4">
-                @include('components.mobileNumber',['title' => 'Phone Number','name' => 'primary_phone_number', 'required' => false, 'value' => isset($formData) ? $formData->school_phone1 : ""])
+                @include('components.mobileNumber',['title' => 'Phone Number','name' => 'primary_phone_number', 'required' => true, 'value' => isset($parentData) ? $parentData->primary_phone : ""])
             </div>
             <div class="col-md-4">
-                @include('components.mobileNumber',['title' => 'Alternamte Phone Number ','name' => 'primary_alt_phone_number', 'value' => isset($formData) ? $formData->school_phone1 : ""])
+                @include('components.mobileNumber',['title' => 'Alternamte Phone Number ','name' => 'primary_alt_phone_number', 'value' => isset($parentData) ? $parentData->primary_alt_phone : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Email','name' => 'primary_email', 'required' => false, 'type' => 'email', 'value' => isset($formData) ? $formData->email : ""])
+                @include('components.textInput',['title' => 'Email','name' => 'primary_email', 'required' => false, 'type' => 'email', 'value' => isset($parentData) ? $parentData->primary_email : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Education','name' => 'primary_education','value' => isset($formData) ? $formData->email : ""])
+                @include('components.textInput',['title' => 'Education','name' => 'primary_education','value' => isset($parentData) ? $parentData->primary_education : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Ocupation','name' => 'primary_education','value' => isset($formData) ? $formData->email : ""])
+                @include('components.textInput',['title' => 'Ocupation','name' => 'primary_ocupdation','value' => isset($parentData) ? $parentData->primary_ocupation : ""])
             </div>
             <div class="col-md-4">
                 <div class="form-group required">
                     <label for="status">Relationship to the student</label>
-                    <select class="selectpicker form-control" name="primary_relation" >
+                    <select class="selectpicker form-control" name="primary_relation" required>
                         <option value="">Select Relation</option>
-                        <option value="1">Father</option>
-                        <option value="2">Giardian</option>
+                        <option value="1" {{isset($parentData) && $parentData->primary_relation == 1 ? "selected" : '' }}>Father</option>
+                        <option value="2" {{isset($parentData) && $parentData->primary_relation == 2 ? "selected" : '' }}>Giardian</option>
                     </select>
                 </div>
             </div>
@@ -94,30 +93,30 @@
             <h4>Person 2</h4>
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Name', 'name' => 'secondary_name', 'value' => isset($formData) ? $formData->school_short_name : ""])
+                @include('components.textInput',['title' => 'Name', 'name' => 'secondary_name', 'value' => isset($parentData) ? $parentData->secondary_name : ""])
             </div>
             <div class="col-md-4">
-                @include('components.mobileNumber',['title' => 'Phone Number','name' => 'secondary_phone_number', 'value' => isset($formData) ? $formData->school_phone1 : ""])
+                @include('components.mobileNumber',['title' => 'Phone Number','name' => 'secondary_phone_number', 'value' => isset($parentData) ? $parentData->secondary_phone : ""])
             </div>
             <div class="col-md-4">
-                @include('components.mobileNumber',['title' => 'Alternamte Phone Number ','name' => 'secondary_alt_phone_number', 'value' => isset($formData) ? $formData->school_phone1 : ""])
+                @include('components.mobileNumber',['title' => 'Alternamte Phone Number ','name' => 'secondary_alt_phone_number', 'value' => isset($parentData) ? $parentData->secondary_alt_phone : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Email','name' => 'secondary_email', 'type' => 'email', 'value' => isset($formData) ? $formData->email : ""])
+                @include('components.textInput',['title' => 'Email','name' => 'secondary_email', 'type' => 'email', 'value' => isset($parentData) ? $parentData->secondary_email : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Education','name' => 'secondary_education','value' => isset($formData) ? $formData->email : ""])
+                @include('components.textInput',['title' => 'Education','name' => 'secondary_education','value' => isset($parentData) ? $parentData->secondary_education : ""])
             </div>
             <div class="col-md-4">
-                @include('components.textInput',['title' => 'Ocupation','name' => 'secondary_education','value' => isset($formData) ? $formData->email : ""])
+                @include('components.textInput',['title' => 'Ocupation','name' => 'secondary_ocupation','value' => isset($parentData) ? $parentData->secondary_ocupation : ""])
             </div>
             <div class="col-md-4">
                 <div class="form-group">
                     <label for="status">Relationship to the student</label>
                     <select class="selectpicker form-control" name="secondaty_relation">
                         <option value="">Select Relation</option>
-                        <option value="1">Father</option>
-                        <option value="2">Giardian</option>
+                        <option value="1" {{isset($parentData) && $parentData->secondary_relation == 1 ? "selected" : '' }}>Father</option>
+                        <option value="2" {{isset($parentData) && $parentData->secondary_relation == 2 ? "selected" : '' }}>Giardian</option>
                     </select>
                 </div>
             </div>
@@ -128,25 +127,22 @@
         <div class="border rounded d-flex flex-wrap block-inner">
 
         <div class="col-md-4">
-            @include('components.textInput',['name' => 'address1','required' => false, 'title' => 'Address 1', 'value' => isset($formData) ? $formData->school_address1 : ""])
+            @include('components.textInput',['name' => 'd_no','required' => false, 'title' => 'D.No', 'value' => isset($addressData) ? $addressData->d_no : ""])
         </div>
         <div class="col-md-4">
-            @include('components.textInput',['name' => 'address2','title' => 'Address 2', 'value' => isset($formData) ? $formData->school_address2 : ""])
+            @include('components.textInput',['name' => 'street','title' => 'Street', 'value' => isset($addressData) ? $addressData->street : ""])
         </div>
         <div class="col-md-4">
-            @include('components.textInput',['name' => 'street','title' => 'Street', 'value' => isset($formData) ? $formData->school_street : ""])
+            @include('components.textInput',['name' => 'city','title' => 'City', 'value' => isset($addressData) ? $addressData->city : ""])
         </div>
         <div class="col-md-4">
-            @include('components.textInput',['name' => 'city','title' => 'City', 'value' => isset($formData) ? $formData->school_city : ""])
+            @include('components.textInput',['name' => 'district','title' => 'District', 'value' => isset($addressData) ? $addressData->district : ""])
         </div>
         <div class="col-md-4">
-            @include('components.textInput',['name' => 'district','title' => 'District', 'value' => isset($formData) ? $formData->school_district : ""])
+            @include('components.textInput',['name' => 'state','title' => 'State', 'value' => isset($addressData) ? $addressData->state : ""])
         </div>
         <div class="col-md-4">
-            @include('components.textInput',['name' => 'state','title' => 'State', 'value' => isset($formData) ? $formData->school_state : ""])
-        </div>
-        <div class="col-md-4">
-            @include('components.textInput',['name' => 'pincode','title' => 'Pincode', 'value' => isset($formData) ? $formData->school_pincode : ""])
+            @include('components.textInput',['name' => 'pincode','title' => 'Pincode', 'value' => isset($addressData) ? $addressData->pincode : ""])
         </div>
     </div>
 </div>
