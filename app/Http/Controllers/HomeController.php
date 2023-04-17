@@ -26,28 +26,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        Cache::forget('permissions');
-        Cache::forget('rootPermissions');
-        if(!Auth::check()) return redirect('/');
-        else if(Auth::user()->role == env('SUPER_ADMIN_ROLE_ID'))   return redirect()->route('superadmin.dashboard.index');
-        else if(Auth::user()->role == env('SCHOOL_ADMIN_ROLE_ID'))  return redirect()->route('schooladmin.dashboard.index');
-        else if(Auth::user()->role == env('STUDENT_ROLE_ID'))       return redirect()->route('schooladmin.dashboard.index');
-        else if(Auth::user()->role == env('PARENT_ROLE_ID'))        return redirect()->route('schooladmin.dashboard.index');
-        else
-        {
-            Cache::remember('permissions', env('CACHE_PERMISSION_MINUTES'), function () {
-                return RolePermissions::where('school_id',Auth::user()->school_id)->where('role_id',Auth::user()->role)->get();
-            });
-            Cache::remember('rootPermissions', env('CACHE_PERMISSION_MINUTES'), function () {
-                return RolePermissions::where([['school_id',Auth::user()->school_id],['role_id',Auth::user()->role]])->where(function($query) {
-                    $query->where("is_view",1)
-                        ->orWhere('is_add',1)
-                        ->orWhere('is_edit',1)
-                        ->orWhere('is_delete',1);
-                })->get();
-            });
-            return redirect()->route('staff.dashboard.index');
-        }
+        if(!auth()->check() && !auth()->guard('student')->check() && !auth()->guard('parent')->check())         return redirect('/');
+        else if(auth()->user()->role == env('SUPER_ADMIN_ROLE_ID'))       return redirect()->route('superadmin.dashboard.index');
+        else if(auth()->user()->role == env('SCHOOL_ADMIN_ROLE_ID'))      return redirect()->route('schooladmin.dashboard.index');
+        else if(auth()->guard('student')->check())                        return redirect()->route('student.dashboard.index');
+        else if(auth()->guard('parent')->check())                         return redirect()->route('parent.dashboard.index');
+        else                                                              return redirect()->route('staff.dashboard.index');
     }
 
     public static function addSubdomineTOEveryRoute()
