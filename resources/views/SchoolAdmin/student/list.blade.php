@@ -1,4 +1,4 @@
-@extends('staff.layouts.main')
+@extends('SchoolAdmin.layouts.main')
 @section('title','School List')
 @section('content')
 
@@ -49,7 +49,7 @@
         $('#myTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{!! route('staff.student.datatable.list') !!}",
+            ajax: "{!! route('schooladmin.student.datatable.list') !!}",
             columns: [
                 {
                     "title": "S.No",
@@ -74,10 +74,10 @@
             "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ],
             buttons: [
                     {
-                        text: '<i class="fa fa-plus" aria-hidden="true"></i> New School',
+                        text: '<i class="fa fa-plus" aria-hidden="true"></i> Add Student',
                         "className": 'export_btn',
                         action: function ( e, dt, node, config ) {
-                            window.location.replace("{{ route('staff.school.add') }}");
+                            window.location.replace("{{ route('schooladmin.student.add') }}");
                         }
                     },
                   {

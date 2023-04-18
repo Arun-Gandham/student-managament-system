@@ -5,9 +5,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SchoolAdmin\ClassesSectionsController;
 use App\Http\Controllers\SchoolAdmin\DashboardController;
 use App\Http\Controllers\SchoolAdmin\RolesAndPermissionsController;
 use App\Http\Controllers\SchoolAdmin\StaffManagementController;
+use App\Http\Controllers\SchoolAdmin\studentController;
 
 Route::middleware('subdomain',)->group(function () {
     Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
@@ -48,6 +50,34 @@ Route::middleware('subdomain',)->group(function () {
                 Route::post('/staff-management/{id}/edit', [StaffManagementController::class, 'addOrUpdateStaffSubmit'])->name('staff-management.edit.submit');
                 Route::post('/staff-management/add', [StaffManagementController::class, 'addOrUpdateStaffSubmit'])->name('staff-management.add.submit');
                 Route::get('/staff-management/list/datatable', [StaffManagementController::class, 'staffListDatatable'])->name('staff-management.list.datatable');
+
+                // Student
+                Route::get('/sections-by-class', [studentController::class, 'getSections'])->name('sections.by.class');
+                Route::get('/student/list', [studentController::class, 'studentList'])->name('student.list');
+                Route::get('/student/datatables/list', [studentController::class, 'StudentsListDatatable'])->name('student.datatable.list');
+                Route::get('/student/add', [studentController::class, 'addStudent'])->name('student.add');
+                Route::post('/student/add', [studentController::class, 'addOrEditStudentSubmit'])->name('student.add.submit');
+                Route::get('/student/{id}/edit', [studentController::class, 'editStudent'])->name('student.edit');
+                Route::post('/student/{id}/edit', [studentController::class, 'addOrEditStudentSubmit'])->name('student.edit.submit');
+
+                // classes and sections
+                Route::get('/class-section/classes/list', [ClassesSectionsController::class, 'listClasses'])->name('class-sections.classes.list');
+                Route::get('/class-section/sections/list', [ClassesSectionsController::class, 'listSections'])->name('class-sections.sections.list');
+                Route::get('/class-section/classes/datatables/list', [ClassesSectionsController::class, 'classesListDatatable'])->name('class-sections.classes.datatable.list');
+                Route::get('/class-section/sections/datatables/list', [ClassesSectionsController::class, 'sectionsListDatatable'])->name('class-sections.sections.datatable.list');
+                // classes
+                Route::get('/class/add', [ClassesSectionsController::class, 'addClass'])->name('class-sections.class.add');
+                Route::post('/class/add', [ClassesSectionsController::class, 'addOrEditClassSubmit'])->name('class-sections.class.add.submit');
+                Route::get('/class/{id}/edit', [ClassesSectionsController::class, 'editClass'])->name('class-sections.class.edit');
+                Route::post('/class/{id}/edit', [ClassesSectionsController::class, 'addOrEditClassSubmit'])->name('class-sections.class.edit.submit');
+                // classes
+                Route::get('/section/add', [ClassesSectionsController::class, 'addSection'])->name('class-sections.section.add');
+                Route::post('/section/add', [ClassesSectionsController::class, 'addOrEditSectionSubmit'])->name('class-sections.section.add.submit');
+                Route::get('/section/{id}/edit', [ClassesSectionsController::class, 'editSection'])->name('class-sections.section.edit');
+                Route::post('/section/{id}/edit', [ClassesSectionsController::class, 'addOrEditSectionSubmit'])->name('class-sections.section.edit.submit');
+
+
+
             }
         );
     });

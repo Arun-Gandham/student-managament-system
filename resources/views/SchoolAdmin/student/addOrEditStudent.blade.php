@@ -1,4 +1,4 @@
-@extends('staff.layouts.main')
+@extends('SchoolAdmin.layouts.main')
 @section('title',isset($formData) ? "Edit Student" : "Add Student")
 @section('content')
 <style>
@@ -8,7 +8,7 @@
 
 </style>
 <div class="create-main-outer pb-5">
-<form action="{{ isset($formData) ? route('staff.student.edit.submit',$formData->id) : route('staff.student.add.submit') }}" method="POST" class="addOrEditStudent" id="addOrEditStudent" name="addOrEditStudent"  enctype="multipart/form-data" novalidate>
+<form action="{{ isset($formData) ? route('schooladmin.student.edit.submit',$formData->id) : route('schooladmin.student.add.submit') }}" method="POST" class="addOrEditStudent" id="addOrEditStudent" name="addOrEditStudent"  enctype="multipart/form-data" novalidate>
     <div class="form-block">
         <h2>Basic Information</h2>
         <div class="border rounded d-flex flex-wrap block-inner">
@@ -46,6 +46,27 @@
             </div>
             <div class="col-md-4">
                 @include('components.textInput',['title' => 'Email ( If any )','name' => 'email', 'value' => isset($formData) ? $formData->email : ""])
+            </div>
+            <div class="col-md-4">
+                <div class="form-group required">
+                    <label for="status">Class</label>
+                    <select class="selectpicker form-control" id="class" name="class">
+                        <option value="">Select Class</option>
+                        @foreach ($classes as $class)
+                            <option value="{{$class->id}}" {{ isset($formData) && $formData->class_id  == $class->id ? "selected" : "" }}>{{ $class->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group required">
+                    <label for="status">Section</label>
+                    <select class="selectpicker form-control" id="section" name="section">
+                        @foreach ($defaultSections as $key => $value)
+                        <option value="{{$key}}" {{isset($formData) && $key == $formData->section_id ? 'selected' : ''}}>{{$value}}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="col-md-4">
                 @include('components.imageUploadPriview',['name' => 'profile_photo','title' => 'Profile Photo',"previewLink" => isset($formData) ? $formData->profile_photo : "" ])
@@ -152,5 +173,37 @@
 </div>
 </form>
 </div>
+<script>
+    $(document).ready(function() {
+        // Event listener for select element
+        $('#class').on('change', function() {
+            var selectedOption = $(this).val();
+
+            // Send Ajax request to get updated options
+            $.ajax({
+                url: '{{ route("schooladmin.sections.by.class") }}',
+                type: 'GET',
+                data: { selectedOption: selectedOption },
+                dataType: 'json',
+                success: function(response) {
+                    // Clear current options
+                    $('#section').empty();
+
+                    // Add new options
+                    $('#section').append($('<option>', {
+                        value: '',
+                        text: '-- Select an option --'
+                    }));
+                    $.each(response.options, function(key, value) {
+                        $('#section').append($('<option>', {
+                            value: key,
+                            text: value
+                        }));
+                    });
+                }
+            });
+        });
+    });
+    </script>
 @include('components.ajaxFormSubmit',['formId' => 'addOrEditStudent'])
 @endsection
