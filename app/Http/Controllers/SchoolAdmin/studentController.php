@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Staff;
+namespace App\Http\Controllers\SchoolAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Models\classes;
 use App\Models\Gender;
 use App\Models\Parents;
+use App\Models\sections;
 use App\Models\StudentAddress;
 use App\Models\students;
 use App\Traits\FileHandling;
@@ -22,7 +24,7 @@ class studentController extends Controller
     // Student module start
     public function studentList()
     {
-        return view('Staff.student.list');
+        return view('schooladmin.student.list');
     }
 
     public function StudentsListDatatable()
@@ -32,7 +34,7 @@ class studentController extends Controller
         ->addIndexColumn()
         ->addColumn('actions', function ($student) {
             return '<a href="" class="btn btn-xs btn-primary"><img src="'.asset("svg/eye.svg").'" atl="view"></a>
-            <a href="'.route('staff.student.edit',["id" => $student->id]).'" class="btn btn-xs btn-info"><img src="'.asset("svg/edit.svg").'" atl="edit"></a>
+            <a href="'.route('schooladmin.student.edit',["id" => $student->id]).'" class="btn btn-xs btn-info"><img src="'.asset("svg/edit.svg").'" atl="edit"></a>
                     <form method="POST" action="" style="display:inline">
                         <input type="hidden" name="_method" value="DELETE">
                         <button type="submit" class="btn btn-xs btn-danger" onclick="return confirm(\'Are you sure you want to delete this user?\')"><img src="'.asset("svg/trash.svg").'" atl="delete"></button>
@@ -52,16 +54,22 @@ class studentController extends Controller
 
     public function addStudent($id = "")
     {
+        $defaultSections = isset($sections) ? $sections->sections->pluck('name', 'id')->toArray() : [];
+        $classes = classes::where('school_id',auth()->user()->school_id)->get();
         $genders = Gender::get();
-        return view('Staff.student.addOrEditStudent',compact('genders','id'));
+        return view('schooladmin.student.addOrEditStudent',compact('genders','id','classes','defaultSections'));
     }
+
     public function editStudent($id = "")
     {
+        $classes = classes::where('school_id',auth()->user()->school_id)->get();
         $addressData = StudentAddress::where('student_id',$id)->first();
         $formData = students::find($id);
         $parentData = Parents::where('student_id',$id)->first();
         $genders = Gender::get();
-        return view('Staff.student.addOrEditStudent',compact('genders','id','formData','parentData','addressData'));
+        $sections = classes::where('id',$formData->class_id)->where('school_id',auth()->user()->school_id)->first();
+        $defaultSections = isset($sections) ? $sections->sections->pluck('name', 'id')->toArray() : [];
+        return view('schooladmin.student.addOrEditStudent',compact('genders','id','formData','parentData','addressData','classes','defaultSections'));
     }
 
 
@@ -97,7 +105,6 @@ class studentController extends Controller
             return response()->json(['errors' => $validator->errors()], 422);
         }
         try{
-
             $newStudent = $id != "" ? students::find($id): new students;
             $newStudent->first_name = isset($request->first_name) ? $request->first_name : "";
             $newStudent->last_name =  isset($request->last_name) ? $request->last_name : "";
@@ -107,6 +114,8 @@ class studentController extends Controller
             $newStudent->gender =  isset($request->gender) ? $request->gender : "";
             $newStudent->email =  isset($request->email) ? $request->email : "";
             $newStudent->phone =  isset($request->phone) ? $request->phone : "";
+            $newStudent->class_id =  (int) isset($request->class) ? $request->class : "";
+            $newStudent->section_id =  (int) isset($request->section) ? $request->section : "";
             $newStudent->password =  Hash::make($request->registration_number);
 
             if($id == "")
@@ -181,10 +190,18 @@ class studentController extends Controller
 
     // student mdoule end
 
-    public function rolesList()
+    // get sections by class Id
+    public function getSections(Request $request)
     {
-        return view('Staff.student.list');
+        $options = classes::where('id',$request->selectedOption)->where('school_id',auth()->user()->school_id)->first()->sections->pluck('name', 'id')
+        ->toArray();
+        return response()->json(['options' => $options]);
     }
 
+
+    public function rolesList()
+    {
+        return view('schooladmin.student.list');
+    }
 
 }

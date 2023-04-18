@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 <head>
 @include('layout.partials.head')
 <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap-switch-button@1.1.0/css/bootstrap-switch-button.min.css" rel="stylesheet">
@@ -81,6 +81,34 @@
                             </li>
                             <li class="">
                                 <a class="nav-link {{ request()->routeIs('schooladmin.staff-management.add') ? 'active' : ''  }}" href="{{ route('schooladmin.staff-management.add') }}">Add Staff</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('schooladmin.student.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="#student-managament" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Students<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
+                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.student.*') ? 'show' : '' }}" id="student-managament">
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.student.list') ? 'active' : ''  }}" href="{{ route('schooladmin.student.list') }}">All Students</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.student.add') ? 'active' : ''  }}" href="{{ route('schooladmin.student.add') }}">Add Student</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('schooladmin.class-sections.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="#class-sections" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Classes & Sections<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
+                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.class-sections.*') ? 'show' : '' }}" id="class-sections">
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.class-sections.classes.list') ? 'active' : ''  }}" href="{{ route('schooladmin.class-sections.classes.list') }}">List Classes</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.class-sections.sections.list') ? 'active' : ''  }}" href="{{ route('schooladmin.class-sections.sections.list') }}">List Sections</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.class-sections.class.add') ? 'active' : ''  }}" href="{{ route('schooladmin.class-sections.class.add') }}">Add Class</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.class-sections.section.add') ? 'active' : ''  }}" href="{{ route('schooladmin.class-sections.section.add') }}">Add Section</a>
                             </li>
                         </ul>
                     </li>
