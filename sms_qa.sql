@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 18, 2023 at 01:35 PM
+-- Generation Time: Apr 19, 2023 at 01:02 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `sms_qa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_attendance_types`
+--
+
+CREATE TABLE `sms_attendance_types` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_attendance_types`
+--
+
+INSERT INTO `sms_attendance_types` (`id`, `name`) VALUES
+(1, 'Present'),
+(2, 'Absent'),
+(3, 'Late Arrival'),
+(4, 'Leave');
 
 -- --------------------------------------------------------
 
@@ -1033,7 +1054,9 @@ INSERT INTO `sms_migrations` (`id`, `migration`, `batch`) VALUES
 (31, '2023_04_17_093746_student_address', 11),
 (32, '2023_04_17_114244_classes', 12),
 (33, '2023_04_17_114251_sections', 12),
-(34, '2023_04_17_114407_classes_sections', 12);
+(34, '2023_04_17_114407_classes_sections', 12),
+(35, '2023_04_18_131757_student_attendance', 13),
+(36, '2023_04_19_071305_attendance_status_types', 14);
 
 -- --------------------------------------------------------
 
@@ -1075,7 +1098,11 @@ INSERT INTO `sms_parents` (`id`, `student_id`, `role`, `school_id`, `student_reg
 (5, 44, 4, 1, 'asdfasdfasdf', 'asdfasd', '9876543223', '', '', '', '', 2, '', '', '', '', '', '', '', '$2y$10$UX0A6i8SQkn45QVELmLYJugHx2jK98QcThGVmMr2VkHS7hew.Dv4S', '2023-04-17 04:26:47', '2023-04-17 04:26:47'),
 (6, 45, 4, 1, '23424234234234', 'fasdfasdf', '9765432456', 'fasdf', 'asdfas', 'sdfasdf', 'adf', 2, 'asdf', '9345234243', '9234234324', 'asdfasd', 'asdfasdf', 'asfdadfs', '2', '$2y$10$JyBjyL5aBOTS1eFhUsEBUu4njgGoLekIpkehaW4c5BEni6Tz729Ie', '2023-04-17 04:27:42', '2023-04-17 04:40:50'),
 (7, 46, 4, 1, '123324324234234', 'gsdfgsdfg', '9765432456', '9876543456', 'sdfgsdfg', 'sdfgsdfg', 'sdfgsdfg', 1, 'gsdfgsdfg', '9345234243', '', 'sdfgd@fasdfa.dsfasdfas', 'sdgsdgfsd', 'gsdfgsdfgsdgff', '1', '$2y$10$n8cnYOYsCIXtRDiHl35sbONw2KFTdYxrXO75cExB4YVRQ4mbBa0OS', '2023-04-17 05:54:52', '2023-04-17 05:54:52'),
-(8, 47, 4, 1, 'ABC123', 'Veera brahmama gandham', '9666938409', '9951307660', 'veerabrahmamgandham@gmail.com', '10th class', 'Travels', 1, '', '', '', '', '', '', '', '$2y$10$gbxhdXYEQo3HYX3zGDHL7OD4nwXrNf15XtuxxbcJRniSGReXWwPtW', '2023-04-18 06:01:25', '2023-04-18 06:01:25');
+(8, 47, 4, 1, 'ABC123', 'Veera brahmama gandham', '9666938409', '9951307660', 'veerabrahmamgandham@gmail.com', '10th class', 'Travels', 1, '', '', '', '', '', '', '', '$2y$10$gbxhdXYEQo3HYX3zGDHL7OD4nwXrNf15XtuxxbcJRniSGReXWwPtW', '2023-04-18 06:01:25', '2023-04-18 06:01:25'),
+(9, 48, 4, 1, 'ABC111', 'Prasad Kotiboina', '9876543211', '', '', '', '', 1, '', '', '', '', '', '', '', '$2y$10$Zb1HFXtADqSmSKABtoyGi.fCE6XCsh5ryeywDvSxpf2t8lZxOkOrm', '2023-04-18 07:56:21', '2023-04-18 07:56:21'),
+(10, 49, 4, 1, 'ABC222', 'Vardhan', '9876543212', '', '', '', '', 1, '', '', '', '', '', '', '', '$2y$10$Z6djTdp57Yc92f26JhmTgeVybOt8/mRd6usq3kKaUZQYEB0vX5LlG', '2023-04-18 08:17:22', '2023-04-18 08:17:22'),
+(11, 50, 4, 1, 'ABC321', 'vardhan', '9876543212', '', '', '', '', 1, '', '', '', '', '', '', '', '$2y$10$w.wm9iNq9N7Y2b85oUQZpezKWhXFVmVr7poJL1gIQ.Web2qHGT9pm', '2023-04-19 00:42:23', '2023-04-19 00:42:23'),
+(12, 51, 4, 1, 'ABC124', 'Arun', '8765432123', '', '', '', '', 2, '', '', '', '', '', '', '', '$2y$10$QhM0k1dae2CLRIbbSXnVEuyYTdp.BB9MNkh6GW1nB94/3QkWC/m92', '2023-04-19 01:03:44', '2023-04-19 01:03:44');
 
 -- --------------------------------------------------------
 
@@ -1307,7 +1334,7 @@ CREATE TABLE `sms_sessions` (
 --
 
 INSERT INTO `sms_sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('NG0wzvjUoFrFJinLgQUiM8apR2kq0RKLJJLkX46U', 66, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoiN2I3OGtSbDZ2YXdldzlLaDJMNjYweEhxVnd0N1puVUlNOXdoYjBXWiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo1MzoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9jbGFzcy9hZGQiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo1OToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9zdHVkZW50LzQ3L2VkaXQiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2NjtzOjE5OiJTQ0hPT0xfRkFWSUNPTl9QQVRIIjtzOjUyOiJ1cGxvYWRzL3NjaG9vbHMvMi9GQVZJQ09OX2Zhdmljb25fMTY4MTQ5NTE2OTI5MDQuaWNvIjtzOjk6InN1YmRvbWFpbiI7czo5OiJncmVlbmxhbmQiO3M6MTE6InBlcm1pc3Npb25zIjthOjA6e31zOjc6Im1vZHVsZXMiO2E6ODp7czo3OiJTdHVkZW50IjtpOjE7czo3OiJUZWFjaGVyIjtpOjI7czo2OiJQYXJlbnQiO2k6MztzOjc6IkxpYnJhcnkiO2k6NDtzOjEyOiJPZmZpY2UgQWRtaW4iO2k6NTtzOjQ6ImRzZnMiO2k6NjtzOjc6ImZhc2ZkYXMiO2k6NztzOjM6ImZhcyI7aTo4O319', 1681817490);
+('xLrthm58FLcL5G1H6ZoXFCM0hGgdVNUD8AfX2jOu', 66, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoicGJ2a3pRbU9KeGFSSkY2ZktQaXJka1RoT2EzUXBwd0pFbmZNVnY4ZiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo1OToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9hdHRlbmRhbmNlL21hcmsiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo1OToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9hdHRlbmRhbmNlL21hcmsiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2NjtzOjE5OiJTQ0hPT0xfRkFWSUNPTl9QQVRIIjtzOjUyOiJ1cGxvYWRzL3NjaG9vbHMvMi9GQVZJQ09OX2Zhdmljb25fMTY4MTQ5NTE2OTI5MDQuaWNvIjtzOjk6InN1YmRvbWFpbiI7czo5OiJncmVlbmxhbmQiO3M6MTE6InBlcm1pc3Npb25zIjthOjA6e31zOjc6Im1vZHVsZXMiO2E6ODp7czo3OiJTdHVkZW50IjtpOjE7czo3OiJUZWFjaGVyIjtpOjI7czo2OiJQYXJlbnQiO2k6MztzOjc6IkxpYnJhcnkiO2k6NDtzOjEyOiJPZmZpY2UgQWRtaW4iO2k6NTtzOjQ6ImRzZnMiO2k6NjtzOjc6ImZhc2ZkYXMiO2k6NztzOjM6ImZhcyI7aTo4O319', 1681901932);
 
 -- --------------------------------------------------------
 
@@ -1372,6 +1399,7 @@ INSERT INTO `sms_states` (`id`, `name`, `country_id`) VALUES
 CREATE TABLE `sms_students` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `registration_number` varchar(100) NOT NULL,
+  `roll_no` int(11) NOT NULL,
   `school_id` int(5) NOT NULL,
   `first_name` varchar(255) NOT NULL,
   `last_name` varchar(200) DEFAULT NULL,
@@ -1393,8 +1421,12 @@ CREATE TABLE `sms_students` (
 -- Dumping data for table `sms_students`
 --
 
-INSERT INTO `sms_students` (`id`, `registration_number`, `school_id`, `first_name`, `last_name`, `sur_name`, `gender`, `dob`, `email`, `phone`, `role`, `password`, `profile_photo`, `class_id`, `section_id`, `created_at`, `updated_at`) VALUES
-(47, 'ABC123', 1, 'Arun Sai', '', 'Gandham', 1, '1998-12-21', 'arunsaigandham1998@gmail.com', '9121855669', 5, '$2y$10$LpgdJ2dx9/skWtFPg/Xu7uJDVVp6rn8BF.jPMcHcBixzyNVJDb1/i', 'uploads/schools/1/students/1681817485_android-chrome-192x192_16818174851701.png', 9, 18, '2023-04-18 06:01:25', '2023-04-18 06:01:25');
+INSERT INTO `sms_students` (`id`, `registration_number`, `roll_no`, `school_id`, `first_name`, `last_name`, `sur_name`, `gender`, `dob`, `email`, `phone`, `role`, `password`, `profile_photo`, `class_id`, `section_id`, `created_at`, `updated_at`) VALUES
+(47, 'ABC123', 3, 1, 'Arun Sai', '', 'Gandham', 1, '1998-12-21', 'arunsaigandham1998@gmail.com', '9121855669', 5, '$2y$10$AlBbbGnJ2y46AdcJjsprCeTB4Ysp26SWLguDNWlNhnUp/0k5CM8Ku', 'uploads/schools/1/students/1681817485_android-chrome-192x192_16818174851701.png', 9, 18, '2023-04-18 06:01:25', '2023-04-18 12:34:26'),
+(48, 'ABC111', 2, 1, 'Venkata Naga', 'Vyshnavi', 'Kotiboina', 2, '2004-08-11', '', '', 5, '$2y$10$nGAPBe9Q2ff.LQ.3F3.uNOyGcHI4BXYJHhxEUHXaoIe3iL91V6WHG', NULL, 9, 17, '2023-04-18 07:56:21', '2023-04-18 12:34:14'),
+(49, 'ABC222', 3, 1, 'Surya', '', 'Chakra', 1, '2023-04-05', '', '', 5, '$2y$10$Xt5cVD2HYdXYAnEWtBrYnOtL5DArkx/WJgbxQ5rf0xrWMIip/.TRe', NULL, 9, 18, '2023-04-18 08:17:22', '2023-04-19 01:04:24'),
+(50, 'ABC321', 4, 1, 'Hari Krishna', '', 'Bala', 1, '1994-06-15', '', '', 5, '$2y$10$5vU4nqIypqzvHW4ZEUq1ruGqDQkSB0m1xeBJ2yzc/C9TE73pV6DrG', 'uploads/schools/1/students/1681884743_ashish_16818847437070.png', 9, 18, '2023-04-19 00:42:23', '2023-04-19 00:42:23'),
+(51, 'ABC124', 5, 1, 'Varun', '', 'Gandham', 1, '2023-03-30', '', '8989576984', 5, '$2y$10$7PeV3rKrhWrU5GD.jP/lc.gWQzxa8bhrcm.5CKFXmC8Iq7oNpeEmq', NULL, 9, 18, '2023-04-19 01:03:44', '2023-04-19 01:03:44');
 
 -- --------------------------------------------------------
 
@@ -1423,7 +1455,41 @@ INSERT INTO `sms_student_address` (`id`, `student_id`, `d_no`, `street`, `city`,
 (1, NULL, 'fasd', 'fasdfsadf', 'asdfasd', 'asdfadsf', 'asdfasdf', 'fasdfasdf', '2023-04-17 04:26:47', '2023-04-17 04:26:47'),
 (2, 45, 'fasdfsa', 'dfsadfasfd', 'asdf', 'sadfasdfasdf', 'asdfasdf', '243234234', '2023-04-17 04:27:42', '2023-04-17 04:27:42'),
 (3, 46, 'sdfgsdfgsfdg', 'dfgsdfgsdf', 'gsdfgsd', 'gfsdfgsdfgs', 'gsdfgsdf', '32423424', '2023-04-17 05:54:52', '2023-04-17 05:54:52'),
-(4, 47, '3-41', 'NALLAVARI STREET', 'kakinnada', 'east godavari', 'Andhra pradesh', '533005', '2023-04-18 06:01:25', '2023-04-18 06:01:25');
+(4, 47, '3-41', 'NALLAVARI STREET', 'kakinnada', 'east godavari', 'Andhra pradesh', '533005', '2023-04-18 06:01:25', '2023-04-18 06:01:25'),
+(5, 48, '', '', '', '', '', '', '2023-04-18 07:56:21', '2023-04-18 07:56:21'),
+(6, 49, '', '', '', '', '', '', '2023-04-18 08:17:22', '2023-04-18 08:17:22'),
+(7, 50, '', '', '', '', '', '', '2023-04-19 00:42:23', '2023-04-19 00:42:23'),
+(8, 51, '', '', '', '', '', '', '2023-04-19 01:03:44', '2023-04-19 01:03:44');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_student_attendance`
+--
+
+CREATE TABLE `sms_student_attendance` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `status_id` int(11) NOT NULL,
+  `date` date NOT NULL DEFAULT current_timestamp(),
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_student_attendance`
+--
+
+INSERT INTO `sms_student_attendance` (`id`, `student_id`, `status_id`, `date`, `created_at`, `updated_at`) VALUES
+(37, 47, 1, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:28:52'),
+(38, 49, 2, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:21:39'),
+(39, 50, 1, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:21:39'),
+(40, 51, 3, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:22:21'),
+(41, 48, 3, '2023-04-19', '2023-04-19 05:22:27', '2023-04-19 05:22:31'),
+(42, 47, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
+(43, 49, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
+(44, 50, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
+(45, 51, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44');
 
 -- --------------------------------------------------------
 
@@ -1524,6 +1590,12 @@ INSERT INTO `sms_user_address` (`id`, `user_id`, `house_no`, `street`, `city`, `
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `sms_attendance_types`
+--
+ALTER TABLE `sms_attendance_types`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sms_cities`
@@ -1654,6 +1726,12 @@ ALTER TABLE `sms_student_address`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sms_student_attendance`
+--
+ALTER TABLE `sms_student_attendance`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sms_subdomains`
 --
 ALTER TABLE `sms_subdomains`
@@ -1676,6 +1754,12 @@ ALTER TABLE `sms_user_address`
 --
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `sms_attendance_types`
+--
+ALTER TABLE `sms_attendance_types`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `sms_cities`
@@ -1717,13 +1801,13 @@ ALTER TABLE `sms_genders`
 -- AUTO_INCREMENT for table `sms_migrations`
 --
 ALTER TABLE `sms_migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `sms_parents`
 --
 ALTER TABLE `sms_parents`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `sms_permission_module`
@@ -1765,13 +1849,19 @@ ALTER TABLE `sms_sections`
 -- AUTO_INCREMENT for table `sms_students`
 --
 ALTER TABLE `sms_students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `sms_student_address`
 --
 ALTER TABLE `sms_student_address`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT for table `sms_student_attendance`
+--
+ALTER TABLE `sms_student_attendance`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `sms_subdomains`
