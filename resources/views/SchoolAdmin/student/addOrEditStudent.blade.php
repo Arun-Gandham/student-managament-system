@@ -22,6 +22,9 @@
                 @include('components.textInput',['name' => 'sur_name','title' => 'Sur Name','required' => true, 'value' => isset($formData) ? $formData->sur_name : ""])
             </div>
             <div class="col-md-4">
+                @include('components.mobileNumber',['title' => 'Roll No.','name' => 'roll_no', 'value' => isset($formData) ? $formData->roll_no : ""])
+            </div>
+            <div class="col-md-4">
                 @include('components.textInput',['name' => 'registration_number','title' => 'Registration Number','required' => true, 'value' => isset($formData) ? $formData->registration_number : ""])
             </div>
             <div class="col-md-4">
@@ -50,7 +53,7 @@
             <div class="col-md-4">
                 <div class="form-group required">
                     <label for="status">Class</label>
-                    <select class="selectpicker form-control" id="class" name="class">
+                    <select class="selectpicker form-control" id="class" name="class" required>
                         <option value="">Select Class</option>
                         @foreach ($classes as $class)
                             <option value="{{$class->id}}" {{ isset($formData) && $formData->class_id  == $class->id ? "selected" : "" }}>{{ $class->name }}</option>
@@ -61,7 +64,7 @@
             <div class="col-md-4">
                 <div class="form-group required">
                     <label for="status">Section</label>
-                    <select class="selectpicker form-control" id="section" name="section">
+                    <select class="selectpicker form-control" id="section" name="section" required>
                         @foreach ($defaultSections as $key => $value)
                         <option value="{{$key}}" {{isset($formData) && $key == $formData->section_id ? 'selected' : ''}}>{{$value}}</option>
                         @endforeach

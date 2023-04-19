@@ -112,6 +112,14 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item {{ request()->routeIs('schooladmin.attendance.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="#attendance" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Attendance<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
+                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.attendance.*') ? 'show' : '' }}" id="attendance">
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.attendance.mark') ? 'active' : ''  }}" href="{{ route('schooladmin.attendance.mark') }}">Mark</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""><i class="fa fa-bullhorn" aria-hidden="true"></i> Subscriptions</a>
                     </li>
