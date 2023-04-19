@@ -28,4 +28,18 @@ class students extends Authenticatable
         return $this->hasOne(Schools::class, 'id', 'school_id');
     }
 
+    public function getClass()
+    {
+        return $this->hasOne(classes::class, 'id', 'class_id');
+    }
+
+    public function getSection()
+    {
+        return $this->hasOne(sections::class, 'id', 'section_id');
+    }
+
+    public function getAttendanceByData($date = "")
+    {
+        return $this->hasOne(studentAttendance::class,'student_id','id')->where('date',$date);
+    }
 }

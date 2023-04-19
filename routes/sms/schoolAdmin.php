@@ -9,6 +9,7 @@ use App\Http\Controllers\SchoolAdmin\ClassesSectionsController;
 use App\Http\Controllers\SchoolAdmin\DashboardController;
 use App\Http\Controllers\SchoolAdmin\RolesAndPermissionsController;
 use App\Http\Controllers\SchoolAdmin\StaffManagementController;
+use App\Http\Controllers\SchoolAdmin\studentAttendanceController;
 use App\Http\Controllers\SchoolAdmin\studentController;
 
 Route::middleware('subdomain',)->group(function () {
@@ -52,7 +53,6 @@ Route::middleware('subdomain',)->group(function () {
                 Route::get('/staff-management/list/datatable', [StaffManagementController::class, 'staffListDatatable'])->name('staff-management.list.datatable');
 
                 // Student
-                Route::get('/sections-by-class', [studentController::class, 'getSections'])->name('sections.by.class');
                 Route::get('/student/list', [studentController::class, 'studentList'])->name('student.list');
                 Route::get('/student/datatables/list', [studentController::class, 'StudentsListDatatable'])->name('student.datatable.list');
                 Route::get('/student/add', [studentController::class, 'addStudent'])->name('student.add');
@@ -61,6 +61,7 @@ Route::middleware('subdomain',)->group(function () {
                 Route::post('/student/{id}/edit', [studentController::class, 'addOrEditStudentSubmit'])->name('student.edit.submit');
 
                 // classes and sections
+                Route::get('/sections-by-class', [studentController::class, 'getSections'])->name('sections.by.class');
                 Route::get('/class-section/classes/list', [ClassesSectionsController::class, 'listClasses'])->name('class-sections.classes.list');
                 Route::get('/class-section/sections/list', [ClassesSectionsController::class, 'listSections'])->name('class-sections.sections.list');
                 Route::get('/class-section/classes/datatables/list', [ClassesSectionsController::class, 'classesListDatatable'])->name('class-sections.classes.datatable.list');
@@ -77,7 +78,11 @@ Route::middleware('subdomain',)->group(function () {
                 Route::post('/section/{id}/edit', [ClassesSectionsController::class, 'addOrEditSectionSubmit'])->name('class-sections.section.edit.submit');
 
 
-
+                // Attendance Managament
+                Route::get('/attendance/mark', [studentAttendanceController::class,'markAttendance'])->name('attendance.mark');
+                Route::get('/attendance/sections-by-class', [studentAttendanceController::class, 'getSections'])->name('attendance.sections.by.class');
+                Route::post('/attendance/students-by-class-section-attendance', [studentAttendanceController::class, 'getStudentsForAttendance'])->name('attendance.sections.by.class.for.attendance');
+                Route::post('/attendance/bulk-update', [studentAttendanceController::class, 'attendanceBulkUpdate'])->name('attendance.bulk.update');
             }
         );
     });

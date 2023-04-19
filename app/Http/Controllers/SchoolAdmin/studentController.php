@@ -41,14 +41,20 @@ class studentController extends Controller
                     </form>';
         })
         ->addColumn('name', function ($student) {
-            return $student->first_name.''.$student->last_name.' '.$student->sur_name;
+            return $student->first_name.' '.$student->last_name.' '.$student->sur_name;
         })
         ->addColumn('gender', function ($student) {
             if($student->gender == 1) return "Male";
             if($student->gender == 2) return "Female";
             return "Other";
         })
-        ->rawColumns(['actions'])
+        ->addColumn('class', function ($student) {
+            return $student->getClass->name;
+        })
+        ->addColumn('section', function ($student) {
+            return $student->getSection->name;
+        })
+        ->rawColumns(['actions','class','section'])
         ->make(true);
     }
 
@@ -114,6 +120,7 @@ class studentController extends Controller
             $newStudent->gender =  isset($request->gender) ? $request->gender : "";
             $newStudent->email =  isset($request->email) ? $request->email : "";
             $newStudent->phone =  isset($request->phone) ? $request->phone : "";
+            $newStudent->roll_no =  isset($request->roll_no) ? $request->roll_no : "";
             $newStudent->class_id =  (int) isset($request->class) ? $request->class : "";
             $newStudent->section_id =  (int) isset($request->section) ? $request->section : "";
             $newStudent->password =  Hash::make($request->registration_number);
