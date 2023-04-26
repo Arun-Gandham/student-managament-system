@@ -14,7 +14,7 @@ use App\Http\Controllers\SchoolAdmin\studentController;
 use App\Http\Controllers\SchoolAdmin\subjectController;
 use App\Http\Controllers\SchoolAdmin\TimeTableController;
 
-Route::middleware('subdomain',)->group(function () {
+Route::middleware('subdomain')->group(function () {
     Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
         Route::get('management/login', [LoginController::class, 'showLoginForm'])->name('subdomain.login');
         Route::post('management/login', [LoginController::class, 'login']);

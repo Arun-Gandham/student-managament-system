@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\SchoolHomePageHandllerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,7 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
-    Route::get('/redirect-user-to-paticular-dahsboard',[HomeController::class,"index"]);
+    Route::get('/',[SchoolHomePageHandllerController::class,'loadHomePage'])->middleware('subdomain')->name('subdomain.home');
+    Route::get('/redirect-user-to-paticular-dahsboard',[HomeController::class,"index"])->name('redirect.to.paticular.dashboard');
 });
 Route::get('/redirect-user-to-paticular-dahsboard',function (){
     return session()->has('subdomain') ? redirect(session()->get('subdomain','')."/redirect-user-to-paticular-dahsboard") : abort(404);
