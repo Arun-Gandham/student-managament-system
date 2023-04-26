@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
-    Route::get('/',[SchoolHomePageHandllerController::class,'loadHomePage'])->middleware('subdomain');
+    Route::get('/',[SchoolHomePageHandllerController::class,'loadHomePage'])->middleware('subdomain')->name('subdomain.home');
     Route::get('/redirect-user-to-paticular-dahsboard',[HomeController::class,"index"])->name('redirect.to.paticular.dashboard');
 });
 Route::get('/redirect-user-to-paticular-dahsboard',function (){
