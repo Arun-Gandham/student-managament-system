@@ -120,8 +120,30 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item {{ request()->routeIs('schooladmin.time-table.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="#time-table" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Time Table<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
+                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.time-table.*') ? 'show' : '' }}" id="time-table">
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.time-table.show') ? 'active' : ''  }}" href="{{ route('schooladmin.time-table.show') }}">Show</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.time-table.timeTableManage') ? 'active' : ''  }}" href="{{ route('schooladmin.time-table.timeTableManage') }}">Manage</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.time-table.addPeriod') ? 'active' : ''  }}" href="{{ route('schooladmin.time-table.addPeriod') }}">Period</a>
+                            </li>
+                        </ul>
+                    </li>
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fa fa-bullhorn" aria-hidden="true"></i> Subscriptions</a>
+                        <a class="nav-link {{ request()->routeIs('schooladmin.subject.*') ? 'active' : ''  }}" href="{{ route('schooladmin.subject.add') }}"><i class="fa fa-bullhorn" aria-hidden="true"></i> Subjects</a>
+                    </li>
+                    <li class="nav-item {{ request()->routeIs('schooladmin.fee.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="#fee" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Fee<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
+                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.fee.*') ? 'show' : '' }}" id="fee">
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.fee.add') ? 'active' : ''  }}" href="{{ route('schooladmin.fee.add') }}">Pay</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>

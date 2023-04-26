@@ -11,6 +11,8 @@ use App\Http\Controllers\SchoolAdmin\RolesAndPermissionsController;
 use App\Http\Controllers\SchoolAdmin\StaffManagementController;
 use App\Http\Controllers\SchoolAdmin\studentAttendanceController;
 use App\Http\Controllers\SchoolAdmin\studentController;
+use App\Http\Controllers\SchoolAdmin\subjectController;
+use App\Http\Controllers\SchoolAdmin\TimeTableController;
 
 Route::middleware('subdomain',)->group(function () {
     Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
@@ -71,18 +73,58 @@ Route::middleware('subdomain',)->group(function () {
                 Route::post('/class/add', [ClassesSectionsController::class, 'addOrEditClassSubmit'])->name('class-sections.class.add.submit');
                 Route::get('/class/{id}/edit', [ClassesSectionsController::class, 'editClass'])->name('class-sections.class.edit');
                 Route::post('/class/{id}/edit', [ClassesSectionsController::class, 'addOrEditClassSubmit'])->name('class-sections.class.edit.submit');
-                // classes
+                // Sections
                 Route::get('/section/add', [ClassesSectionsController::class, 'addSection'])->name('class-sections.section.add');
                 Route::post('/section/add', [ClassesSectionsController::class, 'addOrEditSectionSubmit'])->name('class-sections.section.add.submit');
                 Route::get('/section/{id}/edit', [ClassesSectionsController::class, 'editSection'])->name('class-sections.section.edit');
                 Route::post('/section/{id}/edit', [ClassesSectionsController::class, 'addOrEditSectionSubmit'])->name('class-sections.section.edit.submit');
 
-
                 // Attendance Managament
-                Route::get('/attendance/mark', [studentAttendanceController::class,'markAttendance'])->name('attendance.mark');
-                Route::get('/attendance/sections-by-class', [studentAttendanceController::class, 'getSections'])->name('attendance.sections.by.class');
-                Route::post('/attendance/students-by-class-section-attendance', [studentAttendanceController::class, 'getStudentsForAttendance'])->name('attendance.sections.by.class.for.attendance');
-                Route::post('/attendance/bulk-update', [studentAttendanceController::class, 'attendanceBulkUpdate'])->name('attendance.bulk.update');
+                Route::group(
+                    ['prefix' => 'attendance', 'as' => 'attendance.'],
+                    function () {
+                        Route::get('/mark', [studentAttendanceController::class, 'markAttendance'])->name('mark');
+                        Route::get('/sections-by-class', [studentAttendanceController::class, 'getSections'])->name('sections.by.class');
+                        Route::post('/students-by-class-section-attendance', [studentAttendanceController::class, 'getStudentsForAttendance'])->name('sections.by.class.for.attendance');
+                        Route::post('/bulk-update', [studentAttendanceController::class, 'attendanceBulkUpdate'])->name('bulk.update');
+                    }
+                );
+
+                // Time table management
+
+                Route::group(
+                    ['prefix' => 'time-table', 'as' => 'time-table.'],
+                    function () {
+                        // Add periods
+
+                        Route::get('/add-period', [TimeTableController::class, 'addPeriod'])->name('addPeriod');
+                        Route::get('/{id}/edit-period', [TimeTableController::class, 'editPeriod'])->name('edit');
+                        Route::post('/submit-period/{id?}', [TimeTableController::class, 'addOrEditSubmitPeriod'])->name('addPeriod.submit');
+                        // Time Table
+                        Route::get('/show/{class?}/{section?}', [TimeTableController::class, 'showTimeTable'])->name('show');
+                        Route::get('/manage/{class?}/{section?}', [TimeTableController::class, 'timeTableManage'])->name('timeTableManage');
+                        Route::post('/getTimeTable', [TimeTableController::class, 'getTimeTable'])->name('getTimeTable');
+                        Route::post('/submitTimeTable', [TimeTableController::class, 'submitTimeTable'])->name('submitTimeTable');
+                    }
+                );
+
+                // Subject management
+                Route::group(
+                    ['prefix' => 'subject', 'as' => 'subject.'],
+                    function () {
+                        Route::get('/add', [subjectController::class, 'addSubject'])->name('add');
+                        Route::get('/{id}/edit', [subjectController::class, 'editSubject'])->name('edit');
+                        Route::post('/submit/{id?}', [subjectController::class, 'submitSubject'])->name('submit');
+                    }
+                );
+
+                // Fee management
+                Route::group(
+                    ['prefix' => 'fee', 'as' => 'fee.'],
+                    function () {
+                        Route::get('/add', [subjectController::class, 'addSubject'])->name('add');
+                    }
+                );
             }
         );
     });
