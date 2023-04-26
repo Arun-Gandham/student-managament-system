@@ -1,6 +1,14 @@
 <div id="loader">
     <div class="spinner"></div>
 </div>
+<script src="{{ asset('/sw.js') }}"></script>
+<script>
+    if (!navigator.serviceWorker.controller) {
+        navigator.serviceWorker.register("/sw.js").then(function (reg) {
+            console.log("Service worker has been registered for scope: " + reg.scope);
+        });
+    }
+</script>
 <script>
     /* Add the JavaScript to show/hide the spinner here */
     window.addEventListener('load', function() {
