@@ -64,7 +64,7 @@ class feeController extends Controller
             $newPayment->fee_type_id = $request->fee_type;
             $newPayment->fee_paid_date = $request->payment_date;
             $newPayment->fee_description = $request->description ? $request->description : "";
-            $newPayment->acdamic_year_id = masterSettings::find(1)->current_academic_year_id;
+            $newPayment->acdamic_year_id = $request->acadamic_year ? $request->acadamic_year : "";;
             $newPayment->payment_amount = $request->payment_amount;
             $newPayment->payment_type_id = $request->payment_type;
             $newPayment->paid_to = auth()->user()->id;

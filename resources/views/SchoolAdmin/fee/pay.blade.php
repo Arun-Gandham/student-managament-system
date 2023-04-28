@@ -134,6 +134,18 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="status">For Acadamic Year</label>
+                                    <select class="selectpicker form-control" onchange="getFeeHistory()"
+                                        id="acadamic_year" name="acadamic_year">
+                                        @foreach ($acadamicYears as $acadamicyear)
+                                            <option {{ $acadamicyear->id == $currentAcadamicYear ? 'selected' : '' }}
+                                                value="{{ $acadamicyear->id }}">{{ $acadamicyear->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-block pb-5">
@@ -171,7 +183,7 @@
                         </tr>
                     </tfoot>
                 </table>
-                <h2 class="text-center my-3">Other Fee's paid</h2>
+                <h2 class="text-center my-3">Total Fee's paid</h2>
                 <table id="other_fee_table" class="display w-100 border rounded">
                     <thead>
                     </thead>
