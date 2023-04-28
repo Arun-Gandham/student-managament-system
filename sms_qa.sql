@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2023 at 01:02 PM
+-- Generation Time: Apr 28, 2023 at 02:35 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -20,6 +20,29 @@ SET time_zone = "+00:00";
 --
 -- Database: `sms_qa`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_acdamic_years`
+--
+
+CREATE TABLE `sms_acdamic_years` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `start_date` date NOT NULL,
+  `end_date` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_acdamic_years`
+--
+
+INSERT INTO `sms_acdamic_years` (`id`, `name`, `start_date`, `end_date`, `created_at`, `updated_at`) VALUES
+(1, '2022 - 2023', '2022-06-01', '2023-05-31', '2023-04-27 09:18:03', '2023-04-27 09:18:03'),
+(2, '2023 - 2024', '2023-06-01', '2024-05-31', '2023-04-27 09:16:18', '2023-04-27 09:16:18');
 
 -- --------------------------------------------------------
 
@@ -673,6 +696,7 @@ CREATE TABLE `sms_classes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `school_id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `tution_fee` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -681,8 +705,10 @@ CREATE TABLE `sms_classes` (
 -- Dumping data for table `sms_classes`
 --
 
-INSERT INTO `sms_classes` (`id`, `school_id`, `name`, `created_at`, `updated_at`) VALUES
-(9, 1, '1st Class', '2023-04-18 05:48:58', '2023-04-18 05:48:58');
+INSERT INTO `sms_classes` (`id`, `school_id`, `name`, `tution_fee`, `created_at`, `updated_at`) VALUES
+(9, 1, '1st Class', 0, '2023-04-18 05:48:58', '2023-04-18 05:48:58'),
+(10, 1, 'Class 2', 12312312, '2023-04-27 08:01:27', '2023-04-27 23:55:42'),
+(11, 1, 'fasdf', 123123, '2023-04-27 23:53:03', '2023-04-27 23:55:31');
 
 -- --------------------------------------------------------
 
@@ -709,7 +735,10 @@ INSERT INTO `sms_classes_sections_mapping` (`id`, `school_id`, `class_id`, `sect
 (54, 1, 9, 17, 100, 69, '2023-04-18 05:48:58', '2023-04-18 05:48:58'),
 (56, 1, 9, 19, 76, 69, '2023-04-18 05:55:29', '2023-04-18 05:55:53'),
 (57, 1, 9, 18, 100, 69, '2023-04-18 05:56:07', '2023-04-18 05:56:07'),
-(58, 1, 9, 20, 190, 69, '2023-04-18 05:57:58', '2023-04-18 05:57:58');
+(58, 1, 9, 20, 190, 69, '2023-04-18 05:57:58', '2023-04-18 05:57:58'),
+(59, 1, 10, 17, 12, 69, '2023-04-27 08:01:27', '2023-04-27 08:01:27'),
+(60, 1, 10, 18, 12, 69, '2023-04-27 08:01:27', '2023-04-27 08:01:27'),
+(61, 1, 11, 17, 234, 69, '2023-04-27 23:53:03', '2023-04-27 23:53:03');
 
 -- --------------------------------------------------------
 
@@ -982,6 +1011,30 @@ INSERT INTO `sms_countries` (`id`, `countryCode`, `name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sms_days`
+--
+
+CREATE TABLE `sms_days` (
+  `id` bigint(11) NOT NULL,
+  `name` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sms_days`
+--
+
+INSERT INTO `sms_days` (`id`, `name`) VALUES
+(1, 'Sunday'),
+(2, 'Monday'),
+(3, 'Tuesday'),
+(4, 'Wednesday'),
+(5, 'Thursday'),
+(6, 'Friday'),
+(7, 'Saturday');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sms_failed_jobs`
 --
 
@@ -994,6 +1047,69 @@ CREATE TABLE `sms_failed_jobs` (
   `exception` longtext NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_fee_management`
+--
+
+CREATE TABLE `sms_fee_management` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `fee_type_id` int(11) NOT NULL,
+  `fee_paid_date` varchar(255) NOT NULL,
+  `fee_description` varchar(255) NOT NULL,
+  `acdamic_year_id` int(11) NOT NULL,
+  `payment_amount` int(11) NOT NULL,
+  `payment_type_id` bigint(11) UNSIGNED NOT NULL,
+  `paid_to` bigint(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_fee_management`
+--
+
+INSERT INTO `sms_fee_management` (`id`, `student_id`, `fee_type_id`, `fee_paid_date`, `fee_description`, `acdamic_year_id`, `payment_amount`, `payment_type_id`, `paid_to`, `created_at`, `updated_at`) VALUES
+(1, 51, 1, '2023-04-27', 'asdfsdf', 2, 123, 1, 66, '2023-04-27 06:04:13', '2023-04-27 06:04:13'),
+(2, 51, 1, '2023-04-27', 'noting', 2, 1231312, 1, 66, '2023-04-27 06:24:39', '2023-04-27 06:24:39'),
+(3, 49, 1, '2023-04-27', 'asdfasd', 2, 123, 1, 66, '2023-04-27 07:24:22', '2023-04-27 07:24:22'),
+(4, 49, 1, '2023-04-27', '', 2, 12312, 1, 66, '2023-04-27 07:25:31', '2023-04-27 07:25:31'),
+(5, 49, 1, '2023-04-27', '', 2, 432, 2, 66, '2023-04-27 07:25:48', '2023-04-27 07:25:48'),
+(6, 47, 2, '2023-04-27', 'noting', 2, 8900, 1, 66, '2023-04-27 08:05:16', '2023-04-27 08:05:16'),
+(7, 49, 1, '2023-04-28', 'testing', 2, 123123123, 2, 66, '2023-04-28 04:47:53', '2023-04-28 04:47:53'),
+(8, 47, 2, '2023-04-28', 'sdfasfdasdfasdf', 2, 2323, 2, 66, '2023-04-28 06:40:40', '2023-04-28 06:40:40'),
+(9, 47, 1, '2023-04-28', 'asdfsadfasd', 2, 1231, 2, 66, '2023-04-28 06:40:54', '2023-04-28 06:40:54'),
+(10, 47, 4, '2023-04-28', 'safdfasdf', 2, 4321, 1, 66, '2023-04-28 06:41:11', '2023-04-28 06:41:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_fee_types`
+--
+
+CREATE TABLE `sms_fee_types` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `school_id` bigint(11) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_fee_types`
+--
+
+INSERT INTO `sms_fee_types` (`id`, `name`, `school_id`, `created_at`, `updated_at`) VALUES
+(1, 'Tution Fee', 0, '2023-04-27 04:54:32', '2023-04-27 12:07:48'),
+(2, 'Bus Fees 123', 1, '2023-04-27 04:54:43', '2023-04-28 01:26:48'),
+(3, 'Fine', 1, '2023-04-27 04:54:56', '2023-04-27 04:54:56'),
+(4, 'Dress Fee', 1, '2023-04-27 04:55:06', '2023-04-27 04:55:06'),
+(5, 'Tour Fee', 1, '2023-04-27 07:43:18', '2023-04-27 07:43:18'),
+(6, 'Discount', 1, '2023-04-27 07:48:30', '2023-04-27 07:48:30'),
+(7, 'rserser', 1, '2023-04-27 12:11:13', '2023-04-27 12:11:13');
 
 -- --------------------------------------------------------
 
@@ -1016,6 +1132,26 @@ INSERT INTO `sms_genders` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, 'Male', '2023-04-12 07:29:49', '2023-04-12 07:29:49'),
 (2, 'Female', '2023-04-12 07:29:49', '2023-04-12 07:29:49'),
 (3, 'Other', '2023-04-12 07:29:49', '2023-04-12 07:29:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_master_settings`
+--
+
+CREATE TABLE `sms_master_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `current_academic_year_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_master_settings`
+--
+
+INSERT INTO `sms_master_settings` (`id`, `current_academic_year_id`, `created_at`, `updated_at`) VALUES
+(1, 2, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1056,7 +1192,14 @@ INSERT INTO `sms_migrations` (`id`, `migration`, `batch`) VALUES
 (33, '2023_04_17_114251_sections', 12),
 (34, '2023_04_17_114407_classes_sections', 12),
 (35, '2023_04_18_131757_student_attendance', 13),
-(36, '2023_04_19_071305_attendance_status_types', 14);
+(36, '2023_04_19_071305_attendance_status_types', 14),
+(37, '2023_04_25_091601_create_time_tables_table', 15),
+(38, '2023_04_27_080513_create_fee_management_table', 16),
+(39, '2023_04_27_091307_create_acdamic_years_table', 17),
+(40, '2023_04_27_092238_create_fee_types_table', 18),
+(41, '2023_04_27_092746_create_payment_types_table', 19),
+(42, '2023_04_27_111201_create_master_settings_table', 20),
+(43, '2023_04_27_174235_create_studen_fees_table', 21);
 
 -- --------------------------------------------------------
 
@@ -1139,6 +1282,61 @@ INSERT INTO `sms_password_reset_tokens` (`email`, `token`, `created_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `sms_payment_types`
+--
+
+CREATE TABLE `sms_payment_types` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_payment_types`
+--
+
+INSERT INTO `sms_payment_types` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'Cash', '2023-04-27 11:04:16', '2023-04-27 11:04:16'),
+(2, 'UPI', '2023-04-27 11:04:16', NULL),
+(3, 'Debit/Credit Card', '2023-04-27 11:04:40', NULL),
+(4, 'Cheque', '2023-04-27 11:04:40', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_periods`
+--
+
+CREATE TABLE `sms_periods` (
+  `id` bigint(11) UNSIGNED NOT NULL,
+  `period_name` varchar(150) NOT NULL,
+  `school_id` int(11) NOT NULL,
+  `from` time NOT NULL,
+  `to` time NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  `updated_at` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sms_periods`
+--
+
+INSERT INTO `sms_periods` (`id`, `period_name`, `school_id`, `from`, `to`, `created_at`, `updated_at`) VALUES
+(1, 'Period 1', 1, '05:18:00', '16:19:00', '2023-04-25 07:48:24', '2023-04-25 11:42:02'),
+(2, 'Period 2', 1, '05:18:00', '16:19:00', '2023-04-25 07:49:26', '2023-04-25 11:42:09'),
+(3, 'Period 3', 1, '05:26:00', '13:23:00', '2023-04-25 07:53:29', '2023-04-25 11:42:17'),
+(4, 'Period 4', 1, '05:18:00', '16:19:00', '2023-04-25 08:04:44', '2023-04-25 11:42:24'),
+(5, 'Launch break', 1, '01:18:00', '16:19:00', '2023-04-25 08:06:02', '2023-04-25 11:42:40'),
+(6, 'Period 5', 1, '14:05:00', '14:56:00', '2023-04-25 08:32:39', '2023-04-25 11:42:49'),
+(7, 'Period 6', 1, '18:12:00', '19:16:00', '2023-04-25 11:43:05', '2023-04-25 11:43:05'),
+(8, 'Period 7', 1, '16:14:00', '19:15:00', '2023-04-25 11:43:18', '2023-04-25 11:43:18'),
+(9, 'Period 8', 1, '01:14:00', '18:15:00', '2023-04-25 11:43:31', '2023-04-25 11:43:31'),
+(10, 'Period 9', 1, '08:04:00', '20:05:00', '2023-04-27 13:32:29', '2023-04-27 13:32:29');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sms_permission_module`
 --
 
@@ -1213,7 +1411,8 @@ INSERT INTO `sms_roles` (`id`, `name`, `description`, `school_id`, `status`, `cr
 (17, 'Librarian', 'Librarian will manage all the books inventory in library and can mange the book status and book exact location', 46, b'1', '2023-04-10 23:41:31', '2023-04-10 23:41:31'),
 (18, 'Office Admin', 'Office admin only can view all the school data.', 46, b'1', '2023-04-10 23:42:16', '2023-04-10 23:42:53'),
 (19, 'Student', 'asdfsd', 46, b'1', '2023-04-11 01:31:29', '2023-04-11 01:31:29'),
-(20, 'Role testing', 'asdfasdf', 46, b'1', '2023-04-11 01:38:32', '2023-04-11 01:38:32');
+(20, 'Role testing', 'asdfasdf', 46, b'1', '2023-04-11 01:38:32', '2023-04-11 01:38:32'),
+(21, 'ASd', 'ADSas', 1, b'1', '2023-04-25 01:06:12', '2023-04-25 01:06:12');
 
 -- --------------------------------------------------------
 
@@ -1239,7 +1438,7 @@ CREATE TABLE `sms_role_permissions` (
 --
 
 INSERT INTO `sms_role_permissions` (`id`, `role_id`, `module_id`, `school_id`, `is_view`, `is_add`, `is_edit`, `is_delete`, `created_at`, `updated_at`) VALUES
-(1, '3', '1', '1', b'0', b'1', b'1', b'0', '2023-04-15 04:13:37', '2023-04-15 04:13:37'),
+(1, '3', '1', '1', b'0', b'1', b'0', b'0', '2023-04-15 04:13:37', '2023-04-15 04:13:37'),
 (2, '3', '2', '1', b'0', b'0', b'0', b'0', '2023-04-15 04:13:37', '2023-04-15 04:13:37'),
 (3, '3', '3', '1', b'0', b'0', b'0', b'0', '2023-04-15 04:13:37', '2023-04-15 04:13:37'),
 (4, '3', '4', '1', b'0', b'0', b'0', b'0', '2023-04-15 04:13:37', '2023-04-15 04:13:37'),
@@ -1334,7 +1533,7 @@ CREATE TABLE `sms_sessions` (
 --
 
 INSERT INTO `sms_sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('xLrthm58FLcL5G1H6ZoXFCM0hGgdVNUD8AfX2jOu', 66, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoicGJ2a3pRbU9KeGFSSkY2ZktQaXJka1RoT2EzUXBwd0pFbmZNVnY4ZiI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo1OToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9hdHRlbmRhbmNlL21hcmsiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czo1OToiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9hdHRlbmRhbmNlL21hcmsiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTo2NjtzOjE5OiJTQ0hPT0xfRkFWSUNPTl9QQVRIIjtzOjUyOiJ1cGxvYWRzL3NjaG9vbHMvMi9GQVZJQ09OX2Zhdmljb25fMTY4MTQ5NTE2OTI5MDQuaWNvIjtzOjk6InN1YmRvbWFpbiI7czo5OiJncmVlbmxhbmQiO3M6MTE6InBlcm1pc3Npb25zIjthOjA6e31zOjc6Im1vZHVsZXMiO2E6ODp7czo3OiJTdHVkZW50IjtpOjE7czo3OiJUZWFjaGVyIjtpOjI7czo2OiJQYXJlbnQiO2k6MztzOjc6IkxpYnJhcnkiO2k6NDtzOjEyOiJPZmZpY2UgQWRtaW4iO2k6NTtzOjQ6ImRzZnMiO2k6NjtzOjc6ImZhc2ZkYXMiO2k6NztzOjM6ImZhcyI7aTo4O319', 1681901932);
+('jv2H9yYVthr48xU68Dw3WNnshiNlt8RXDvo9pUmv', 66, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/112.0.0.0 Safari/537.36', 'YTo5OntzOjY6Il90b2tlbiI7czo0MDoidmdiOEFzVTRZSkl0dXlFVlU3WWg0Z1Ryb1c3NnRqck1ndURHZENuVyI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czo1NjoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL2dyZWVubGFuZC9zY2hvb2xhZG1pbi9mZWUvc3R1ZGVudHMiO31zOjk6Il9wcmV2aW91cyI7YToxOntzOjM6InVybCI7czoyMToiaHR0cDovLzEyNy4wLjAuMTo4MDAwIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6NjY7czoxOToiU0NIT09MX0ZBVklDT05fUEFUSCI7czo1MjoidXBsb2Fkcy9zY2hvb2xzLzIvRkFWSUNPTl9mYXZpY29uXzE2ODE0OTUxNjkyOTA0LmljbyI7czo5OiJzdWJkb21haW4iO3M6OToiZ3JlZW5sYW5kIjtzOjExOiJwZXJtaXNzaW9ucyI7YTowOnt9czo3OiJtb2R1bGVzIjthOjg6e3M6NzoiU3R1ZGVudCI7aToxO3M6NzoiVGVhY2hlciI7aToyO3M6NjoiUGFyZW50IjtpOjM7czo3OiJMaWJyYXJ5IjtpOjQ7czoxMjoiT2ZmaWNlIEFkbWluIjtpOjU7czo0OiJkc2ZzIjtpOjY7czo3OiJmYXNmZGFzIjtpOjc7czozOiJmYXMiO2k6ODt9fQ==', 1682684909);
 
 -- --------------------------------------------------------
 
@@ -1423,7 +1622,7 @@ CREATE TABLE `sms_students` (
 
 INSERT INTO `sms_students` (`id`, `registration_number`, `roll_no`, `school_id`, `first_name`, `last_name`, `sur_name`, `gender`, `dob`, `email`, `phone`, `role`, `password`, `profile_photo`, `class_id`, `section_id`, `created_at`, `updated_at`) VALUES
 (47, 'ABC123', 3, 1, 'Arun Sai', '', 'Gandham', 1, '1998-12-21', 'arunsaigandham1998@gmail.com', '9121855669', 5, '$2y$10$AlBbbGnJ2y46AdcJjsprCeTB4Ysp26SWLguDNWlNhnUp/0k5CM8Ku', 'uploads/schools/1/students/1681817485_android-chrome-192x192_16818174851701.png', 9, 18, '2023-04-18 06:01:25', '2023-04-18 12:34:26'),
-(48, 'ABC111', 2, 1, 'Venkata Naga', 'Vyshnavi', 'Kotiboina', 2, '2004-08-11', '', '', 5, '$2y$10$nGAPBe9Q2ff.LQ.3F3.uNOyGcHI4BXYJHhxEUHXaoIe3iL91V6WHG', NULL, 9, 17, '2023-04-18 07:56:21', '2023-04-18 12:34:14'),
+(48, 'ABC111', 2, 1, 'Venkata Naga', 'Vyshnavi', 'Kotiboina', 2, '2004-08-11', '', '', 5, '$2y$10$0fjOqflZ.v8I0q79y3NZueiliKi99.1EXHZ4lKi6S1HwfLIeIDegC', NULL, 9, 17, '2023-04-18 07:56:21', '2023-04-28 00:23:20'),
 (49, 'ABC222', 3, 1, 'Surya', '', 'Chakra', 1, '2023-04-05', '', '', 5, '$2y$10$Xt5cVD2HYdXYAnEWtBrYnOtL5DArkx/WJgbxQ5rf0xrWMIip/.TRe', NULL, 9, 18, '2023-04-18 08:17:22', '2023-04-19 01:04:24'),
 (50, 'ABC321', 4, 1, 'Hari Krishna', '', 'Bala', 1, '1994-06-15', '', '', 5, '$2y$10$5vU4nqIypqzvHW4ZEUq1ruGqDQkSB0m1xeBJ2yzc/C9TE73pV6DrG', 'uploads/schools/1/students/1681884743_ashish_16818847437070.png', 9, 18, '2023-04-19 00:42:23', '2023-04-19 00:42:23'),
 (51, 'ABC124', 5, 1, 'Varun', '', 'Gandham', 1, '2023-03-30', '', '8989576984', 5, '$2y$10$7PeV3rKrhWrU5GD.jP/lc.gWQzxa8bhrcm.5CKFXmC8Iq7oNpeEmq', NULL, 9, 18, '2023-04-19 01:03:44', '2023-04-19 01:03:44');
@@ -1469,8 +1668,8 @@ INSERT INTO `sms_student_address` (`id`, `student_id`, `d_no`, `street`, `city`,
 
 CREATE TABLE `sms_student_attendance` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `student_id` int(11) NOT NULL,
-  `status_id` int(11) NOT NULL,
+  `student_id` bigint(20) UNSIGNED NOT NULL,
+  `status_id` bigint(20) UNSIGNED NOT NULL,
   `date` date NOT NULL DEFAULT current_timestamp(),
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -1483,13 +1682,49 @@ CREATE TABLE `sms_student_attendance` (
 INSERT INTO `sms_student_attendance` (`id`, `student_id`, `status_id`, `date`, `created_at`, `updated_at`) VALUES
 (37, 47, 1, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:28:52'),
 (38, 49, 2, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:21:39'),
-(39, 50, 1, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:21:39'),
+(39, 50, 2, '2023-04-19', '2023-04-19 05:21:39', '2023-04-24 02:32:04'),
 (40, 51, 3, '2023-04-19', '2023-04-19 05:21:39', '2023-04-19 05:22:21'),
 (41, 48, 3, '2023-04-19', '2023-04-19 05:22:27', '2023-04-19 05:22:31'),
 (42, 47, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
 (43, 49, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
 (44, 50, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
-(45, 51, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44');
+(45, 51, 1, '2023-04-18', '2023-04-19 05:22:44', '2023-04-19 05:22:44'),
+(46, 47, 1, '2023-04-24', '2023-04-24 02:30:38', '2023-04-24 02:30:38'),
+(47, 49, 3, '2023-04-24', '2023-04-24 02:30:38', '2023-04-24 02:35:12'),
+(48, 50, 2, '2023-04-24', '2023-04-24 02:30:38', '2023-04-24 02:30:38'),
+(49, 51, 1, '2023-04-24', '2023-04-24 02:30:38', '2023-04-24 02:30:38'),
+(50, 47, 1, '2023-04-25', '2023-04-24 23:42:14', '2023-04-24 23:42:14'),
+(51, 49, 4, '2023-04-25', '2023-04-24 23:42:14', '2023-04-24 23:47:41'),
+(52, 50, 1, '2023-04-25', '2023-04-24 23:42:14', '2023-04-24 23:42:14'),
+(53, 51, 2, '2023-04-25', '2023-04-24 23:42:14', '2023-04-24 23:46:25'),
+(54, 47, 2, '2023-04-27', '2023-04-27 02:20:33', '2023-04-27 02:20:33'),
+(55, 49, 2, '2023-04-27', '2023-04-27 02:20:33', '2023-04-27 02:20:46'),
+(56, 50, 1, '2023-04-27', '2023-04-27 02:20:33', '2023-04-27 02:20:33'),
+(57, 51, 1, '2023-04-27', '2023-04-27 02:20:33', '2023-04-27 02:20:33'),
+(58, 48, 2, '2023-04-28', '2023-04-28 00:01:11', '2023-04-28 00:01:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_student_fee`
+--
+
+CREATE TABLE `sms_student_fee` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `student_id` int(11) NOT NULL,
+  `academic_id` int(11) NOT NULL,
+  `tution_fee` bigint(22) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_student_fee`
+--
+
+INSERT INTO `sms_student_fee` (`id`, `student_id`, `academic_id`, `tution_fee`, `created_at`, `updated_at`) VALUES
+(1, 48, 2, 34545, '2023-04-28 00:20:14', '2023-04-28 00:22:54'),
+(2, 48, 3, 41234, '2023-04-28 00:23:20', '2023-04-28 00:23:20');
 
 -- --------------------------------------------------------
 
@@ -1514,6 +1749,120 @@ INSERT INTO `sms_subdomains` (`id`, `subdomain`, `strong_id`, `status`, `created
 (1, 'greenland', '1681474602', b'0001', '2023-04-14 06:46:50', '2023-04-14 06:46:50'),
 (2, 'ashram', '1681474618', b'0001', '2023-04-14 06:47:03', '2023-04-14 06:47:03'),
 (3, 'woods', '1681474625', b'0001', '2023-04-14 06:47:15', '2023-04-14 06:49:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_subjects`
+--
+
+CREATE TABLE `sms_subjects` (
+  `id` bigint(11) NOT NULL,
+  `subject_name` varchar(200) NOT NULL,
+  `school_id` int(11) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `sms_subjects`
+--
+
+INSERT INTO `sms_subjects` (`id`, `subject_name`, `school_id`, `created_at`, `updated_at`) VALUES
+(1, 'Telugu', 1, '2023-04-25 12:13:48', '2023-04-26 09:48:53'),
+(2, 'English 123', 1, '2023-04-25 12:13:48', '2023-04-26 04:19:30'),
+(3, 'M1', 1, '2023-04-26 04:19:39', '2023-04-26 04:29:19'),
+(4, 'M2', 1, '2023-04-26 04:29:24', '2023-04-26 04:29:24'),
+(5, 'M3', 1, '2023-04-26 04:29:32', '2023-04-26 04:29:32'),
+(6, 'PWA test', 1, '2023-04-26 05:37:01', '2023-04-26 05:37:01'),
+(7, 'PWA test 2', 1, '2023-04-26 05:37:10', '2023-04-26 05:37:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sms_time_tables`
+--
+
+CREATE TABLE `sms_time_tables` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `school_id` int(11) NOT NULL,
+  `day_id` int(11) NOT NULL,
+  `class_id` int(11) NOT NULL,
+  `section_id` int(11) NOT NULL,
+  `period_id` int(11) NOT NULL,
+  `subject_id` int(11) NOT NULL,
+  `staff_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `sms_time_tables`
+--
+
+INSERT INTO `sms_time_tables` (`id`, `school_id`, `day_id`, `class_id`, `section_id`, `period_id`, `subject_id`, `staff_id`, `created_at`, `updated_at`) VALUES
+(55, 1, 2, 9, 17, 1, 1, 69, '2023-04-25 23:53:33', '2023-04-25 23:53:33'),
+(56, 1, 3, 9, 17, 1, 2, 69, '2023-04-25 23:53:33', '2023-04-25 23:53:33'),
+(57, 1, 4, 9, 17, 1, 2, 69, '2023-04-25 23:53:33', '2023-04-25 23:53:33'),
+(58, 1, 5, 9, 17, 1, 1, 69, '2023-04-25 23:53:33', '2023-04-25 23:53:33'),
+(59, 1, 6, 9, 17, 1, 1, 69, '2023-04-25 23:53:33', '2023-04-25 23:53:33'),
+(60, 1, 7, 9, 17, 1, 1, 69, '2023-04-25 23:53:33', '2023-04-25 23:53:33'),
+(63, 1, 4, 9, 18, 1, 4, 69, '2023-04-25 23:54:06', '2023-04-26 04:34:39'),
+(64, 1, 5, 9, 18, 1, 5, 69, '2023-04-25 23:54:06', '2023-04-26 04:34:39'),
+(65, 1, 6, 9, 18, 1, 1, 69, '2023-04-25 23:54:06', '2023-04-26 04:34:39'),
+(66, 1, 7, 9, 18, 1, 4, 69, '2023-04-25 23:54:06', '2023-04-26 04:34:39'),
+(72, 1, 4, 9, 18, 3, 1, 69, '2023-04-26 00:23:58', '2023-04-26 00:23:58'),
+(73, 1, 2, 9, 18, 2, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(74, 1, 2, 9, 18, 3, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(75, 1, 2, 9, 18, 4, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(76, 1, 2, 9, 18, 6, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(77, 1, 2, 9, 18, 7, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(78, 1, 2, 9, 18, 8, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(79, 1, 2, 9, 18, 9, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(80, 1, 3, 9, 18, 2, 5, 69, '2023-04-26 00:25:51', '2023-04-26 04:34:39'),
+(81, 1, 3, 9, 18, 3, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(82, 1, 3, 9, 18, 4, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(83, 1, 3, 9, 18, 6, 1, 69, '2023-04-26 00:25:51', '2023-04-26 00:25:51'),
+(84, 1, 3, 9, 18, 7, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(85, 1, 3, 9, 18, 8, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(86, 1, 3, 9, 18, 9, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(87, 1, 4, 9, 18, 2, 2, 69, '2023-04-26 00:25:52', '2023-04-26 04:34:39'),
+(88, 1, 4, 9, 18, 4, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(89, 1, 4, 9, 18, 6, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(90, 1, 4, 9, 18, 7, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(91, 1, 4, 9, 18, 8, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(92, 1, 4, 9, 18, 9, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(93, 1, 5, 9, 18, 2, 3, 69, '2023-04-26 00:25:52', '2023-04-26 04:34:39'),
+(94, 1, 5, 9, 18, 3, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(95, 1, 5, 9, 18, 4, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(96, 1, 5, 9, 18, 6, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(97, 1, 5, 9, 18, 7, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(98, 1, 5, 9, 18, 8, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(99, 1, 5, 9, 18, 9, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(100, 1, 6, 9, 18, 2, 5, 69, '2023-04-26 00:25:52', '2023-04-26 04:34:39'),
+(101, 1, 6, 9, 18, 3, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(102, 1, 6, 9, 18, 4, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(103, 1, 6, 9, 18, 6, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(104, 1, 6, 9, 18, 7, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(105, 1, 6, 9, 18, 8, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(106, 1, 6, 9, 18, 9, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(107, 1, 7, 9, 18, 2, 2, 69, '2023-04-26 00:25:52', '2023-04-26 04:34:39'),
+(108, 1, 7, 9, 18, 3, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(109, 1, 7, 9, 18, 4, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(110, 1, 7, 9, 18, 6, 2, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(111, 1, 7, 9, 18, 7, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(112, 1, 7, 9, 18, 8, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(113, 1, 7, 9, 18, 9, 1, 69, '2023-04-26 00:25:52', '2023-04-26 00:25:52'),
+(114, 1, 3, 9, 18, 1, 4, 69, '2023-04-26 02:34:41', '2023-04-26 04:34:39'),
+(115, 1, 2, 9, 17, 3, 2, 69, '2023-04-26 02:41:37', '2023-04-26 02:41:37'),
+(116, 1, 2, 9, 18, 1, 2, 69, '2023-04-26 03:18:08', '2023-04-26 04:34:39'),
+(117, 1, 4, 9, 17, 4, 1, 69, '2023-04-26 03:24:56', '2023-04-26 03:24:56'),
+(118, 1, 2, 9, 17, 6, 1, 69, '2023-04-26 03:27:06', '2023-04-26 03:27:06'),
+(119, 1, 4, 9, 19, 4, 1, 69, '2023-04-26 03:35:04', '2023-04-26 03:35:04'),
+(120, 1, 5, 9, 19, 4, 1, 69, '2023-04-26 03:35:04', '2023-04-26 03:35:04'),
+(121, 1, 2, 9, 18, 10, 2, 69, '2023-04-27 08:02:57', '2023-04-27 08:02:57'),
+(122, 1, 3, 9, 18, 10, 1, 69, '2023-04-27 08:02:57', '2023-04-27 08:02:57'),
+(123, 1, 4, 9, 18, 10, 3, 69, '2023-04-27 08:02:57', '2023-04-27 08:02:57');
 
 -- --------------------------------------------------------
 
@@ -1547,7 +1896,7 @@ CREATE TABLE `sms_users` (
 --
 
 INSERT INTO `sms_users` (`id`, `name`, `email`, `role`, `doj`, `phone`, `alt_phone`, `school_id`, `email_verified_at`, `password`, `two_factor_secret`, `two_factor_recovery_codes`, `two_factor_confirmed_at`, `remember_token`, `current_team_id`, `profile_photo`, `created_at`, `updated_at`) VALUES
-(1, 'Super Admin', 'super-admin@gmail.com', 1, NULL, NULL, NULL, 0, NULL, '$2y$10$t8zs85MgnqMgiR6ndTQqJ.Vl12632nT0JrVs6sEwokg8UxioEUXOS', NULL, NULL, NULL, 'LpMWCD8HaHn3cCxJ49JdG7Agvv5KDYbqj25n3VAqMQjpjfahB9epVraHstJj', NULL, NULL, '2023-04-07 02:14:38', '2023-04-07 02:14:38'),
+(1, 'Super Admin', 'super-admin@gmail.com', 1, NULL, NULL, NULL, 0, NULL, '$2y$10$t8zs85MgnqMgiR6ndTQqJ.Vl12632nT0JrVs6sEwokg8UxioEUXOS', NULL, NULL, NULL, 'nIY2oQVOxjmDgVWqPfMGJeOqcvaQW8vi52et58P0M0U7qNa3wyrtNWnUrofp', NULL, NULL, '2023-04-07 02:14:38', '2023-04-07 02:14:38'),
 (2, 'School Admin', 'school-admin@gmail.com', 2, NULL, NULL, NULL, NULL, NULL, '$2y$10$jNH5Q9WAZBXHMwOTRBjVxuYMU3dv/pWqmNJPt4d6MdBxIJ52sFwkS', NULL, NULL, NULL, NULL, NULL, NULL, '2023-04-07 02:15:44', '2023-04-07 02:15:44'),
 (3, 'Teacher', 'teacher@gmail.com', 3, NULL, NULL, NULL, NULL, NULL, '$2y$10$HVUV5Zkv5moGoEJrt1zK5eyGKR/SOadBhtEHnSipr7MUqEjemAzBS', NULL, NULL, NULL, NULL, NULL, NULL, '2023-04-07 02:16:05', '2023-04-07 02:16:05'),
 (4, 'Staff', 'staff@gmail.com', 4, NULL, NULL, NULL, NULL, NULL, '$2y$10$qqBlTRyu0jyeLCP59JQjsuVIhFR8m4okTXNOKUwMqeSPBjmocOww6', NULL, NULL, NULL, NULL, NULL, NULL, '2023-04-07 02:16:40', '2023-04-07 02:16:40'),
@@ -1592,6 +1941,12 @@ INSERT INTO `sms_user_address` (`id`, `user_id`, `house_no`, `street`, `city`, `
 --
 
 --
+-- Indexes for table `sms_acdamic_years`
+--
+ALTER TABLE `sms_acdamic_years`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sms_attendance_types`
 --
 ALTER TABLE `sms_attendance_types`
@@ -1623,6 +1978,12 @@ ALTER TABLE `sms_countries`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `sms_days`
+--
+ALTER TABLE `sms_days`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sms_failed_jobs`
 --
 ALTER TABLE `sms_failed_jobs`
@@ -1630,9 +1991,27 @@ ALTER TABLE `sms_failed_jobs`
   ADD UNIQUE KEY `sms_failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `sms_fee_management`
+--
+ALTER TABLE `sms_fee_management`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_fee_types`
+--
+ALTER TABLE `sms_fee_types`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `sms_genders`
 --
 ALTER TABLE `sms_genders`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_master_settings`
+--
+ALTER TABLE `sms_master_settings`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1658,6 +2037,18 @@ ALTER TABLE `sms_password_resets`
 --
 ALTER TABLE `sms_password_reset_tokens`
   ADD PRIMARY KEY (`email`);
+
+--
+-- Indexes for table `sms_payment_types`
+--
+ALTER TABLE `sms_payment_types`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_periods`
+--
+ALTER TABLE `sms_periods`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sms_permission_module`
@@ -1729,12 +2120,31 @@ ALTER TABLE `sms_student_address`
 -- Indexes for table `sms_student_attendance`
 --
 ALTER TABLE `sms_student_attendance`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_dtudent_id_to_students` (`student_id`);
+
+--
+-- Indexes for table `sms_student_fee`
+--
+ALTER TABLE `sms_student_fee`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sms_subdomains`
 --
 ALTER TABLE `sms_subdomains`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_subjects`
+--
+ALTER TABLE `sms_subjects`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sms_time_tables`
+--
+ALTER TABLE `sms_time_tables`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -1756,6 +2166,12 @@ ALTER TABLE `sms_user_address`
 --
 
 --
+-- AUTO_INCREMENT for table `sms_acdamic_years`
+--
+ALTER TABLE `sms_acdamic_years`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `sms_attendance_types`
 --
 ALTER TABLE `sms_attendance_types`
@@ -1771,13 +2187,13 @@ ALTER TABLE `sms_cities`
 -- AUTO_INCREMENT for table `sms_classes`
 --
 ALTER TABLE `sms_classes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `sms_classes_sections_mapping`
 --
 ALTER TABLE `sms_classes_sections_mapping`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT for table `sms_countries`
@@ -1786,10 +2202,28 @@ ALTER TABLE `sms_countries`
   MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=251;
 
 --
+-- AUTO_INCREMENT for table `sms_days`
+--
+ALTER TABLE `sms_days`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
 -- AUTO_INCREMENT for table `sms_failed_jobs`
 --
 ALTER TABLE `sms_failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `sms_fee_management`
+--
+ALTER TABLE `sms_fee_management`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `sms_fee_types`
+--
+ALTER TABLE `sms_fee_types`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `sms_genders`
@@ -1798,16 +2232,34 @@ ALTER TABLE `sms_genders`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `sms_master_settings`
+--
+ALTER TABLE `sms_master_settings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `sms_migrations`
 --
 ALTER TABLE `sms_migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `sms_parents`
 --
 ALTER TABLE `sms_parents`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `sms_payment_types`
+--
+ALTER TABLE `sms_payment_types`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `sms_periods`
+--
+ALTER TABLE `sms_periods`
+  MODIFY `id` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `sms_permission_module`
@@ -1825,7 +2277,7 @@ ALTER TABLE `sms_personal_access_tokens`
 -- AUTO_INCREMENT for table `sms_roles`
 --
 ALTER TABLE `sms_roles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `sms_role_permissions`
@@ -1861,13 +2313,31 @@ ALTER TABLE `sms_student_address`
 -- AUTO_INCREMENT for table `sms_student_attendance`
 --
 ALTER TABLE `sms_student_attendance`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+
+--
+-- AUTO_INCREMENT for table `sms_student_fee`
+--
+ALTER TABLE `sms_student_fee`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sms_subdomains`
 --
 ALTER TABLE `sms_subdomains`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `sms_subjects`
+--
+ALTER TABLE `sms_subjects`
+  MODIFY `id` bigint(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `sms_time_tables`
+--
+ALTER TABLE `sms_time_tables`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT for table `sms_users`
@@ -1880,6 +2350,16 @@ ALTER TABLE `sms_users`
 --
 ALTER TABLE `sms_user_address`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `sms_student_attendance`
+--
+ALTER TABLE `sms_student_attendance`
+  ADD CONSTRAINT `fk_dtudent_id_to_students` FOREIGN KEY (`student_id`) REFERENCES `sms_students` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
