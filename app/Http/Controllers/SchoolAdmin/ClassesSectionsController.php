@@ -78,6 +78,7 @@ class ClassesSectionsController extends Controller
 
             $newClass = $id != "" ? classes::find($id) : new classes;
             $newClass->name = isset($request->name) ? $request->name : "";
+            $newClass->tution_fee = isset($request->tution_fee) ? (int) $request->tution_fee : "";
             $newClass->school_id = auth()->user()->school_id;
             $newClass->save();
             $sections_present = [];

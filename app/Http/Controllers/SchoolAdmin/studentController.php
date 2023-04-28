@@ -5,9 +5,11 @@ namespace App\Http\Controllers\SchoolAdmin;
 use App\Http\Controllers\Controller;
 use App\Models\classes;
 use App\Models\Gender;
+use App\Models\masterSettings;
 use App\Models\Parents;
 use App\Models\sections;
 use App\Models\StudentAddress;
+use App\Models\studentFee;
 use App\Models\students;
 use App\Traits\FileHandling;
 use DataTables;
@@ -92,6 +94,7 @@ class studentController extends Controller
             'primary_name' => 'required',
             'primary_phone_number' => 'required',
             'primary_relation' => 'required',
+            'tution_fee' => 'required'
         ];
         if($id != "") $validators['registration_number'] = 'required';
         $messages = [
@@ -175,6 +178,12 @@ class studentController extends Controller
             $newAddress->state = isset($request->state) ? $request->state : "";
             $newAddress->pincode = isset($request->pincode) ? $request->pincode : "";
             $newAddress->save();
+            $current_acdamic_year_id = masterSettings::find(1)->current_academic_year_id;
+            $newTutionFee = $id != "" ? (studentFee::where('student_id',$id)->where('academic_id',$current_acdamic_year_id)->exists() ? studentFee::where('student_id',$id)->where('academic_id',masterSettings::find(1)->current_academic_year_id)->first() : new studentFee ): new studentFee;
+            $newTutionFee->student_id = $newStudent->id;
+            $newTutionFee->academic_id = $current_acdamic_year_id;
+            $newTutionFee->tution_fee = isset($request->tution_fee) ? $request->tution_fee : "";
+            $newTutionFee->save();
 
             if($id != "") return response()->json(['success'=>"Successfully updated"],200);
             return response()->json(['success'=>"Successfully created"],201);
@@ -202,7 +211,8 @@ class studentController extends Controller
     {
         $options = classes::where('id',$request->selectedOption)->where('school_id',auth()->user()->school_id)->first()->sections->pluck('name', 'id')
         ->toArray();
-        return response()->json(['options' => $options]);
+        $classFee = classes::where('id',$request->selectedOption)->first()->tution_fee;
+        return response()->json(['options' => $options,'classFee' => $classFee]);
     }
 
 

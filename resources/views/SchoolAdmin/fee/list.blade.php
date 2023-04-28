@@ -65,17 +65,12 @@
             margin-bottom: 10px;
         }
     </style>
-    <div class="row">
-        <div class="col-md-12">
-            <table id="classes" class="display">
-                <thead>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
+    <table id="myTable" class="display">
+        <thead>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
 
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
@@ -91,10 +86,10 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#classes').DataTable({
+            $('#myTable').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{!! route('schooladmin.class-sections.classes.datatable.list') !!}",
+                ajax: "{!! route('schooladmin.fee.students.datatable.list') !!}",
                 columns: [{
                         "title": "S.No",
                         "data": null,
@@ -111,15 +106,29 @@
                         className: 'text-capitalize'
                     },
                     {
-                        data: 'sections',
-                        name: 'sections',
-                        title: 'Sections',
-                        className: 'text-capitalize'
+                        data: 'roll_no',
+                        name: 'roll_no',
+                        title: 'Roll No.'
                     },
                     {
-                        data: 'tution_fee',
-                        name: 'tution_fee',
-                        title: 'Tution Fee'
+                        data: 'class',
+                        name: 'class',
+                        title: 'Class'
+                    },
+                    {
+                        data: 'section',
+                        name: 'section',
+                        title: 'Section'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender',
+                        title: 'Gender'
+                    },
+                    {
+                        data: 'registration_number',
+                        name: 'registration_number',
+                        title: 'Reg No'
                     },
                     {
                         data: 'actions',
@@ -137,42 +146,7 @@
                     [10, 25, 50, -1],
                     [10, 25, 50, "All"]
                 ],
-                buttons: [{
-                        text: '<i class="fa fa-plus" aria-hidden="true"></i> New Class',
-                        "className": 'export_btn',
-                        action: function(e, dt, node, config) {
-                            window.location.replace("{{ route('schooladmin.class-sections.class.add') }}");
-                        }
-                    },
-                    {
-                        "extend": "pdf",
-                        "text": "PDF",
-                        "filename": "my_table",
-                        "titleAttr": "Export to PDF",
-                        "className": 'export_btn',
-                        exportOptions: {
-                            columns: [0, 1]
-                        },
-
-                    },
-                    {
-                        "extend": "print",
-                        "text": "Print",
-                        "titleAttr": "Print table",
-                        "className": 'export_btn',
-                        exportOptions: {
-                            columns: [0, 1]
-                        },
-                    },
-                    {
-                        extend: 'excelHtml5',
-                        title: 'My Excel Document',
-                        exportOptions: {
-                            columns: [0, 1]
-                        },
-                        "className": 'export_btn'
-                    }
-                ],
+                buttons: [],
                 dom: '<"top"Bfrt>rt<"bottom"lp>i<"clear">',
                 language: {
                     paginate: {

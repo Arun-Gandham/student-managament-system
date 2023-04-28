@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SchoolAdmin\ClassesSectionsController;
 use App\Http\Controllers\SchoolAdmin\DashboardController;
+use App\Http\Controllers\SchoolAdmin\feeController;
 use App\Http\Controllers\SchoolAdmin\RolesAndPermissionsController;
 use App\Http\Controllers\SchoolAdmin\StaffManagementController;
 use App\Http\Controllers\SchoolAdmin\studentAttendanceController;
@@ -122,7 +123,21 @@ Route::middleware('subdomain')->group(function () {
                 Route::group(
                     ['prefix' => 'fee', 'as' => 'fee.'],
                     function () {
-                        Route::get('/add', [subjectController::class, 'addSubject'])->name('add');
+
+                        // Fee payment
+                        Route::get('/students', [feeController::class, 'showStudents'])->name('show.students');
+                        Route::get('/students-list', [feeController::class, 'StudentsListDatatable'])->name('students.datatable.list');
+                        Route::get('{id}/pay', [feeController::class, 'payFee'])->name('students.pay');
+                        Route::post('/pay/submit', [feeController::class, 'payFeeSubmit'])->name('students.pay.submit');
+
+                        //Fee types
+                        Route::get('type/add', [feeController::class, 'addType'])->name('type.add');
+                        Route::get('type/{id}/edit', [feeController::class, 'editType'])->name('type.edit');
+                        Route::post('type/submit/{id?}', [feeController::class, 'typeSubmit'])->name('type.submit');
+
+                        // Fee deatils
+                        Route::get('tution-fee-history/{student_id?}/{acadamic_id?}', [feeController::class, 'getPaymentTutionFeeHistory'])->name('student.payment.tutionFee.history');
+                        Route::get('other-fee-history/{student_id?}/{acadamic_id?}', [feeController::class, 'getPaymentOtherFeeHistory'])->name('student.payment.otherFee.history');
                     }
                 );
             }
