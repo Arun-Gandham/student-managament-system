@@ -11,13 +11,24 @@
 </script>
 <script>
     /* Add the JavaScript to show/hide the spinner here */
-    window.addEventListener('load', function() {
-        var loader = document.getElementById('loader');
+    // window.addEventListener('load', function() {
+    //
+    //     setTimeout(function() {
+    //       loader.classList.add('hide');
+    //     }, 300);
+    //   });
+    var loader = document.getElementById('loader');
+      // Add loader element when page starts loading
+      window.addEventListener('load', function() {
         setTimeout(function() {
           loader.classList.add('hide');
         }, 300);
       });
 
+      // Remove loader element after page finishes loading
+      $(window).on('beforeunload', function() {
+        loader.classList.remove('hide');
+      });
     // default toastr
     @if (session()->has('success'))
         toastr.success("{{session()->get('success')}}");

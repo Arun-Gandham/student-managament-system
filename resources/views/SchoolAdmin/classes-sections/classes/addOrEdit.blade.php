@@ -27,19 +27,30 @@
                 <h2>{{ isset($formData) ? 'Edit' : 'Add' }} Class</h2>
                 <div class="border rounded d-flex flex-wrap block-inner">
                     <div class="col-md-3">
-                        @include('components.textInput', [
-                            'name' => 'name',
-                            'title' => 'Class Name',
-                            'required' => true,
-                            'value' => isset($formData) ? $formData->name : '',
-                        ])
+                        <div class="col-md-12">
+                            @include('components.textInput', [
+                                'name' => 'name',
+                                'title' => 'Class Name',
+                                'required' => true,
+                                'value' => isset($formData) ? $formData->name : '',
+                            ])
+                        </div>
+                        <div class="col-md-12">
+                            @include('components.textInput', [
+                                'name' => 'tution_fee',
+                                'title' => 'Tution Fee',
+                                'type' => 'number',
+                                'required' => true,
+                                'value' => isset($formData) ? $formData->tution_fee : '',
+                            ])
+                        </div>
                     </div>
                     <div class="col-md-9 ">
                         <div class="row sections-block" id="sections-block">
                             @if (isset($formData) && count($formData->classSectionMapping))
-                            @php
-                            $count = 0;
-                            @endphp
+                                @php
+                                    $count = 0;
+                                @endphp
                                 @foreach ($formData->classSectionMapping as $eachSection)
                                     <div class="{{ $count ? '' : 'get-this-block' }} row delete-block">
                                         @php $count++; @endphp
@@ -49,7 +60,9 @@
                                                 <select class=" form-control sections" name="section[]">
                                                     <option value="0">Select Section</option>
                                                     @foreach ($sections as $section)
-                                                        <option value="{{ $section->id }}"  {{isset($eachSection) && $eachSection->section_id == $section->id ? 'selected' : ''}}>{{ $section->name }}</option>
+                                                        <option value="{{ $section->id }}"
+                                                            {{ isset($eachSection) && $eachSection->section_id == $section->id ? 'selected' : '' }}>
+                                                            {{ $section->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -60,7 +73,9 @@
                                                 <select class=" form-control sections" name="teacher[]">
                                                     <option value="0">Select Teacher</option>
                                                     @foreach ($teachers as $teacher)
-                                                        <option value="{{ $teacher->id }}" {{isset($teacher) && $teacher->id == $eachSection->class_teacher_id ? 'selected' : ''}}>{{ $teacher->name }}</option>
+                                                        <option value="{{ $teacher->id }}"
+                                                            {{ isset($teacher) && $teacher->id == $eachSection->class_teacher_id ? 'selected' : '' }}>
+                                                            {{ $teacher->name }}</option>
                                                     @endforeach
                                                 </select>
                                             </div>
@@ -98,7 +113,7 @@
                                             <select class=" form-control sections" name="teacher[]">
                                                 <option value="0">Select Teacher</option>
                                                 @foreach ($teachers as $teacher)
-                                                    <option value="{{ $teacher->id }}" >{{ $teacher->name }}</option>
+                                                    <option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

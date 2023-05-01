@@ -141,7 +141,10 @@
                         <a class="nav-link" href="#fee" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Fee<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
                         <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.fee.*') ? 'show' : '' }}" id="fee">
                             <li class="">
-                                <a class="nav-link {{ request()->routeIs('schooladmin.fee.add') ? 'active' : ''  }}" href="{{ route('schooladmin.fee.add') }}">Pay</a>
+                                <a class="nav-link {{ request()->routeIs('schooladmin.fee.show.students') || request()->routeIs('schooladmin.fee.students.pay') ? 'active' : ''  }}" href="{{ route('schooladmin.fee.show.students') }}">Pay</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.fee.type.add') ? 'active' : ''  }}" href="{{ route('schooladmin.fee.type.add') }}">Fee Types</a>
                             </li>
                         </ul>
                     </li>

@@ -42,4 +42,9 @@ class students extends Authenticatable
     {
         return $this->hasOne(studentAttendance::class,'student_id','id')->where('date',$date);
     }
+
+    public function getTutionFee()
+    {
+        return $this->hasOne(studentFee::class,'student_id','id')->where('academic_id',masterSettings::find(1)->current_academic_year_id);
+    }
 }

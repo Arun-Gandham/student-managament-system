@@ -21,7 +21,7 @@ Route::prefix(HomeController::addSubdomineTOEveryRoute())->group(function () {
 });
 Route::get('/redirect-user-to-paticular-dahsboard',function (){
     return session()->has('subdomain') ? redirect(session()->get('subdomain','')."/redirect-user-to-paticular-dahsboard") : abort(404);
-});
+})->name('redirect.to.there.page');
 foreach (glob(__DIR__.'/sms/*.php') as $filename) {
     require $filename;
 }

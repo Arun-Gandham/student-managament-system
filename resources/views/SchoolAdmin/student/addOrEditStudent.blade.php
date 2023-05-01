@@ -72,6 +72,9 @@
                 </div>
             </div>
             <div class="col-md-4">
+                @include('components.textInput',['title' => 'Tution Fee','type' => 'number','name' => 'tution_fee','required' => true, 'value' => isset($formData) && isset($formData->getTutionFee->tution_fee) ? $formData->getTutionFee->tution_fee : ""])
+            </div>
+            <div class="col-md-4">
                 @include('components.imageUploadPriview',['name' => 'profile_photo','title' => 'Profile Photo',"previewLink" => isset($formData) ? $formData->profile_photo : "" ])
             </div>
         </div>
@@ -189,6 +192,7 @@
                 data: { selectedOption: selectedOption },
                 dataType: 'json',
                 success: function(response) {
+                    $('#tution_fee').val(response.classFee);
                     // Clear current options
                     $('#section').empty();
 
