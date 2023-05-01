@@ -75,6 +75,36 @@
         }
     </style>
     <div class="create-main-outer pb-5">
+        <div class="form-block mb-4">
+            <h2>Student Information</h2>
+            <div class="border rounded d-flex flex-wrap block-inner">
+                <div class="col-md-4">
+                    <div class="form-group required">
+                        <p><b>Student Full Name</b> : {{$studentData->first_name}} {{$studentData->last_name}} {{$studentData->sur_name}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group required">
+                        <p><b>Class</b> : {{$studentData->getClass->name}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group required">
+                        <p><b>Section</b> : {{$studentData->getSection->name}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group required">
+                        <p><b>Roll No</b> : {{$studentData->roll_no}}</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group required">
+                        <p><b>Registration Number</b> : {{$studentData->registration_number}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="">
                 <button class="nav-link me-1 active " data-bs-toggle="tab" data-bs-target="#pay_form" type="button"
@@ -291,8 +321,8 @@
                 buttons: [{
                         "extend": "pdf",
                         "text": "PDF",
-                        "filename": "my_table",
-                        "titleAttr": "Export to PDF",
+                        "filename": "{{$studentData->first_name}} {{$studentData->sur_name}} Tution Fee List",
+                        "title": "{{$studentData->first_name}} {{$studentData->sur_name}} Tution Fees List",
                         "className": 'export_btn',
                         "footer": true,
                         exportOptions: {
@@ -303,7 +333,7 @@
                     {
                         "extend": "print",
                         "text": "Print",
-                        "titleAttr": "Print table",
+                        "title": "{{$studentData->first_name}} {{$studentData->sur_name}} Tution Fees List",
                         "className": 'export_btn',
                         "footer": true,
                         exportOptions: {
@@ -312,7 +342,7 @@
                     },
                     {
                         extend: 'excelHtml5',
-                        title: 'My Excel Document',
+                        "title": "{{$studentData->first_name}} {{$studentData->sur_name}} Tution Fees List",
                         "className": 'export_btn',
                         "footer": true,
                         exportOptions: {
@@ -411,19 +441,18 @@
                 buttons: [{
                         "extend": "pdf",
                         "text": "PDF",
-                        "filename": "my_table",
-                        "titleAttr": "Export to PDF",
+                        "filename": "{{$studentData->first_name}} {{$studentData->sur_name}} Fees List",
+                        "title": "{{$studentData->first_name}} {{$studentData->sur_name}} Fees List",
                         "className": 'export_btn',
                         "footer": true,
                         exportOptions: {
                             columns: [0, 1, 2, 3, 4, 5, 6]
-                        }
-
+                        },
                     },
                     {
                         "extend": "print",
                         "text": "Print",
-                        "titleAttr": "Print table",
+                        "title": "{{$studentData->first_name}} {{$studentData->sur_name}} Fees List",
                         "className": 'export_btn',
                         "footer": true,
                         exportOptions: {
@@ -432,7 +461,7 @@
                     },
                     {
                         extend: 'excelHtml5',
-                        title: 'My Excel Document',
+                        title: "{{$studentData->first_name}} {{$studentData->sur_name}} Fees List",
                         "className": 'export_btn',
                         "footer": true,
                         exportOptions: {
@@ -472,5 +501,22 @@
 
             });
         }
+
+        // Add event listener to the print button
+        $(document).on('click', '.print-button', function() {
+            // Send Ajax request to print the receipt
+            var payment_id = $(this).data('payment-id');
+            $.ajax({
+                url: '{{ route("schooladmin.fee.student.payment.fee.print.recipt", ['payment_id' => 'PAYMENT_ID_REP']) }}'.replace('PAYMENT_ID_REP', payment_id),
+                type: 'GET',
+                success: function(data) {
+                    // Open a new window and display the receipt
+                    var receiptWindow = window.open('', '_blank');
+                    receiptWindow.document.write(data);
+                    receiptWindow.print();
+                    receiptWindow.close();
+                }
+            });
+        });
     </script>
 @endsection

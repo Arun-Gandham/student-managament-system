@@ -8,6 +8,7 @@ use App\Models\FeeManagement;
 use App\Models\feeTypes;
 use App\Models\masterSettings;
 use App\Models\paymentType;
+use App\Models\Schools;
 use App\Models\students;
 use Illuminate\Http\Request;
 use DataTables;
@@ -53,7 +54,8 @@ class feeController extends Controller
         $paymentTypes = paymentType::get();
         $acadamicYears = acdamicYear::get();
         $currentAcadamicYear = masterSettings::find(1)->current_academic_year_id;
-        return view('schooladmin.fee.pay', compact('feeTypes', 'paymentTypes', 'id', 'acadamicYears', 'currentAcadamicYear'));
+        $studentData = students::find($id);
+        return view('schooladmin.fee.pay', compact('feeTypes', 'paymentTypes', 'id', 'acadamicYears', 'currentAcadamicYear', 'studentData'));
     }
 
     public function payFeeSubmit(Request $request)
@@ -74,7 +76,6 @@ class feeController extends Controller
             return redirect()->route('schooladmin.fee.students.pay', ['id' => $request->id])->with('errorMessage', 'Something went wrong');
         }
     }
-
 
     // Fee Types management
     public function addType()
@@ -100,7 +101,6 @@ class feeController extends Controller
     }
 
     // Payement History
-
     private static function getPaymentHistoryObject($student_id, $acadamic_id)
     {
         return $paymentHistory = FeeManagement::where('student_id', $student_id)->where('acdamic_year_id', $acadamic_id)
@@ -110,6 +110,7 @@ class feeController extends Controller
             ->select('fee_management.*', 'fee_types.id', 'fee_types.name as fee_type', 'payment_types.id', 'payment_types.name as payment_type', 'users.id', 'users.name as paid_to_staff')
             ->orderBy('fee_management.id', 'DESC');
     }
+
     public function getPaymentTutionFeeHistory($student_id, $acadamic_id)
     {
         $tutionFeeHistory = $this->getPaymentHistoryObject($student_id, $acadamic_id);
@@ -117,7 +118,7 @@ class feeController extends Controller
         return DataTables::of($tutionFeeHistory)
             ->addIndexColumn()
             ->addColumn('print_recipt', function ($fee) {
-                return '<a href="" class="btn btn-xs btn-info">Print Recipt</a>';
+                return '<a data-payment-id="{{ $fee->id }}" class=" print-button btn btn-xs btn-info">Print Recipt</a>';
             })
             ->addColumn('description', function ($fee) {
                 return $fee->fee_description != "" ? $fee->fee_description : "---";
@@ -125,6 +126,7 @@ class feeController extends Controller
             ->rawColumns(['print_recipt'])
             ->make(true);
     }
+
     public function getPaymentOtherFeeHistory($student_id, $acadamic_id)
     {
         $otherFeeHistory = $this->getPaymentHistoryObject($student_id, $acadamic_id);
@@ -132,12 +134,24 @@ class feeController extends Controller
         return DataTables::of($otherFeeHistory)
             ->addIndexColumn()
             ->addColumn('print_recipt', function ($fee) {
-                return '<a href="" class="btn btn-xs btn-info">Print Recipt</a>';
+                return '<a data-payment-id="{{ $fee->id }}" class="print-button btn btn-xs btn-info">Print Recipt</a>';
             })
             ->addColumn('description', function ($fee) {
                 return $fee->fee_description != "" ? $fee->fee_description : "---";
             })
             ->rawColumns(['print_recipt'])
             ->make(true);
+    }
+
+    // Print-receipt
+    public function paymentReceiptPrint($payment_id)
+    {
+        try {
+            $schoolData = Schools::find(auth()->user()->school_id);
+            $feepayement = FeeManagement::find($payment_id);
+            return view('fee-receipt-templates.fee-receipt-template-1', compact('feepayement', 'schoolData'))->render();
+        } catch (Exception $e) {
+            return '';
+        }
     }
 }

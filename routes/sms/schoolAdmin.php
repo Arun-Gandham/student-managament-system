@@ -138,6 +138,9 @@ Route::middleware('subdomain')->group(function () {
                         // Fee deatils
                         Route::get('tution-fee-history/{student_id?}/{acadamic_id?}', [feeController::class, 'getPaymentTutionFeeHistory'])->name('student.payment.tutionFee.history');
                         Route::get('other-fee-history/{student_id?}/{acadamic_id?}', [feeController::class, 'getPaymentOtherFeeHistory'])->name('student.payment.otherFee.history');
+
+                        //Print_recipt
+                        Route::get('print-recipt/{payment_id}', [feeController::class, 'paymentReceiptPrint'])->name('student.payment.fee.print.recipt');
                     }
                 );
             }
