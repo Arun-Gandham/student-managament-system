@@ -108,10 +108,10 @@
                         <div class="form-group required">
                             <label for="">Results Release</label>
                             <select class="selectpicker form-control" name="result_released">
-                                <option {{ isset($formData) && '0' == $formData->result_released ? 'selected' : '' }}
+                                <option {{ isset($formData) && '0' == $formData->is_result_released ? 'selected' : '' }}
                                     value="0">
                                     No</option>
-                                <option {{ isset($formData) && '1' == $formData->result_released ? 'selected' : '' }}
+                                <option {{ isset($formData) && '1' == $formData->is_result_released ? 'selected' : '' }}
                                     value="1">
                                     Yes</option>
                             </select>
