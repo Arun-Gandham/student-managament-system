@@ -148,6 +148,18 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="nav-item {{ request()->routeIs('schooladmin.exams.*') ? 'active' : '' }}">
+                        <a class="nav-link" href="#exams" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle "><i class="fa fa-id-badge" aria-hidden="true"></i> Exam's<i class="fa fa-angle-down float-right mt-1" aria-hidden="true"></i></a>
+                        <ul class="nav-item collapse list-unstyled  {{ request()->routeIs('schooladmin.exams.*') ? 'show' : '' }}" id="exams">
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.exams.list') ? 'active' : ''  }}" href="{{ route('schooladmin.exams.list') }}">All Exams</a>
+                            </li>
+                            <li class="">
+                                <a class="nav-link {{ request()->routeIs('schooladmin.exams.schedule') ? 'active' : ''  }}" href="{{ route('schooladmin.exams.schedule') }}">Schedule Exam</a>
+                            </li>
+
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>

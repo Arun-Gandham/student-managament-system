@@ -1,10 +1,6 @@
 @extends('SchoolAdmin.layouts.main')
-@section('title', 'School List')
+@section('title', 'Update Results')
 @section('content')
-
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.dataTables.min.css" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.dataTables.min.css" />
     <style>
         .dataTables_wrapper .dataTables_filter {
             float: left;
@@ -65,13 +61,36 @@
             margin-bottom: 10px;
         }
     </style>
-    <table id="myTable" class="display">
-        <thead>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
+    <form method="post" action="{{ route('schooladmin.exams.result.update.submit', ['id' => $examDetails->id]) }}"
+        id="updateExamResults" name="updateExamResults" class="updateExamResults">
+        @csrf
+        <input type="hidden" value="{{ $examDetails->id }}" name="exam_id">
+        <table class="table border display" id="resultUpdateTable">
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Student Name</th>
+                    <th>Marks</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($students as $student)
+                    <tr>
+                        <td>{{ $student->roll_no }}</td>
+                        <td>{{ $student->first_name }} {{ $student->last_name }} {{ $student->sur_name }}</td>
+                        <td>
+                            <div class="d-none">{{ isset($student->marks) ? $student->marks : 0 }}</div>
+                            <input class="form-control" type="hidden" value="{{ $student->id }}" name="student_id[]">
+                            <input type="number" name="marks[]" value="{{ isset($student->marks) ? $student->marks : 0 }}">
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div class="form-block pb-5">
+            <button type="submit" class="btn btn-primary float-right">Update</button>
+        </div>
+    </form>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
@@ -84,114 +103,49 @@
     <script src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.print.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
-            $('#myTable').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: "{!! route('schooladmin.student.datatable.list') !!}",
-                columns: [{
-                        "title": "S.No",
-                        "data": null,
-                        "orderable": false,
-                        "className": "indexColumn",
-                        "render": function(data, type, row, meta) {
-                            return meta.row + 1;
-                        }
-                    },
-                    {
-                        data: 'name',
-                        name: 'name',
-                        title: 'Name',
-                        className: 'text-capitalize'
-                    },
-                    {
-                        data: 'roll_no',
-                        name: 'roll_no',
-                        title: 'Roll No.'
-                    },
-                    {
-                        data: 'class',
-                        name: 'class',
-                        title: 'Class'
-                    },
-                    {
-                        data: 'section',
-                        name: 'section',
-                        title: 'Section'
-                    },
-                    {
-                        data: 'gender',
-                        name: 'gender',
-                        title: 'Gender'
-                    },
-                    {
-                        data: 'registration_number',
-                        name: 'registration_number',
-                        title: 'Reg No'
-                    },
-                    {
-                        data: 'actions',
-                        name: 'Action',
-                        title: 'Action'
-                    }
-                ],
-                "order": [
-                    [2, 'asc']
-                ],
+            $('#resultUpdateTable').DataTable({
+                processing: false,
+                serverSide: false,
+                paginate: false,
+                "order": [],
                 select: {
                     style: 'multi',
                     selector: 'td:not(:last-child)'
                 },
-                // dom: 'lBfrtip',
-                "lengthMenu": [
-                    [10, 25, 50, -1],
-                    [10, 25, 50, "All"]
-                ],
                 buttons: [{
-                        text: '<i class="fa fa-plus" aria-hidden="true"></i> Add Student',
-                        "className": 'export_btn',
-                        action: function(e, dt, node, config) {
-                            window.location.replace("{{ route('schooladmin.student.add') }}");
-                        }
-                    },
-                    {
                         "extend": "pdf",
                         "text": "PDF",
-                        "filename": "my_table",
-                        "titleAttr": "Export to PDF",
+                        "filename": "{{$examDetails->name}} Results",
+                        "title": "{{$examDetails->name}} Results",
                         "className": 'export_btn',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 1, 2]
                         },
 
                     },
                     {
                         "extend": "print",
                         "text": "Print",
-                        "titleAttr": "Print table",
+                        "title": "{{$examDetails->name}} Results",
                         "className": 'export_btn',
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 1, 2]
                         },
                     },
                     {
                         extend: 'excelHtml5',
-                        title: 'My Excel Document',
+                        "title": "{{$examDetails->name}} Results",
                         exportOptions: {
-                            columns: [0, 1]
+                            columns: [0, 1, 2]
                         },
                         "className": 'export_btn'
                     }
                 ],
                 dom: '<"top"Bfrt>rt<"bottom"lp>i<"clear">',
-                language: {
-                    paginate: {
-                        next: '<i class="fas fa-chevron-right"></i>', // right arrow icon
-                        previous: '<i class="fas fa-chevron-left"></i>' // left arrow icon
-                    }
-                },
             });
         });
     </script>
+    @include('components.ajaxFormSubmit', ['formId' => 'updateExamResults'])
 @endsection

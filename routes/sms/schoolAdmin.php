@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SchoolAdmin\ClassesSectionsController;
 use App\Http\Controllers\SchoolAdmin\DashboardController;
+use App\Http\Controllers\SchoolAdmin\examsManagementController;
 use App\Http\Controllers\SchoolAdmin\feeController;
 use App\Http\Controllers\SchoolAdmin\RolesAndPermissionsController;
 use App\Http\Controllers\SchoolAdmin\StaffManagementController;
@@ -141,6 +142,21 @@ Route::middleware('subdomain')->group(function () {
 
                         //Print_recipt
                         Route::get('print-recipt/{payment_id}', [feeController::class, 'paymentReceiptPrint'])->name('student.payment.fee.print.recipt');
+                    }
+                );
+
+                // Exams Management
+                Route::group(
+                    ['prefix' => 'exams', 'as' => 'exams.'],
+                    function () {
+                        // Fee payment
+                        Route::get('/list', [examsManagementController::class, 'examList'])->name('list');
+                        Route::get('/schedule-exam', [examsManagementController::class, 'scheduleExam'])->name('schedule');
+                        Route::get('/schedule-exam/{id}/edit', [examsManagementController::class, 'scheduleExamEdit'])->name('schedule.edit');
+                        Route::get('/exam-result/{id}/update', [examsManagementController::class, 'examResultsUpdate'])->name('result.update');
+                        Route::post('/exam-result/{id}/update-submit', [examsManagementController::class, 'examResultsUpdateSubmit'])->name('result.update.submit');
+                        Route::post('/schedule-exam-submit/{id?}', [examsManagementController::class, 'scheduleExamSubmit'])->name('schedule.submit');
+                        Route::get('/exams-list', [examsManagementController::class, 'examsListDatatable'])->name('datatable.list');
                     }
                 );
             }

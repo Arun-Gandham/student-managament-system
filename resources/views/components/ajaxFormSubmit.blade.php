@@ -62,9 +62,10 @@ $(document).ready(function($){
                     $.each(response.responseJSON.errors, function(key, value) {
                         if(error === 0)
                         {
+                            $('#loader').addClass('hide');
                             $(`#${key}`).focus();
                             $('html, body').animate({
-                                scrollTop: $(`#${key}`).offset().top - 100
+                                // scrollTop: $(`#${key}`).offset().top - 100
                             }, 1000);
                         }
                         toastr.error(value);
@@ -88,7 +89,6 @@ $(document).ready(function($){
                 }
             },
             complete: function (data) {
-
                 $('#loader').addClass('hide');
             }
 
